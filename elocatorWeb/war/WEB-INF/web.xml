@@ -7,4 +7,12 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<!-- TODO: Add <servlet> tags for each servlet here. -->
 	<!-- TODO: Add <servlet-mapping> tags for each <servlet> here. -->
 	<!-- TODO: Optionally add a <welcome-file-list> tag to display a welcome file. -->
+	<servlet>
+		<servlet-name>testServlet</servlet-name>
+		<servlet-class>feri.rvir.elocator.TestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>testServlet</servlet-name>
+		<url-pattern>/test</url-pattern>
+	</servlet-mapping>
 </web-app>
