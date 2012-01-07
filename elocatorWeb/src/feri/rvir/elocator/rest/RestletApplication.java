@@ -14,6 +14,7 @@ public class RestletApplication extends Application {
 		Router router=new Router(getContext());
 		router.attach("/user",UserServerResource.class);
 		return router;
+		//comment
 	}
 
 }
