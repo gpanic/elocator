@@ -10,7 +10,7 @@ public class UserServerResource extends ServerResource implements UserResource {
 		String authToken=(String)getRequest().getAttributes().get("authToken");
 		System.out.println(authToken);
 		//TODO preko authTokena se pridobi uporabnik iz baze
-		return new User("authTokenExample","accountNameExample","accountTypeExample");
+		return new User("authTokenExample","accountNameExample","accountTypeExampleeee");
 	}
 
 	@Override

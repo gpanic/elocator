@@ -1,6 +1,10 @@
 package feri.rvir.elocator.rest.resource.tracking;
 
+import java.util.ArrayList;
+
 import org.restlet.resource.ServerResource;
+
+import feri.rvir.elocator.rest.resource.user.User;
 
 public class TrackingServerResource extends ServerResource implements TrackingResource {
 
@@ -10,7 +14,10 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 		String authToken=(String)getRequest().getAttributes().get("authToken");
 		System.out.println(authToken);
 		// TODO pridobi objekt Tracking glede na authToken uporabnika
-		return null;
+		ArrayList<User> userList=new ArrayList<User>();
+		userList.add(new User("authToken", "accountName", "accountType"));
+		userList.add(new User("authToken", "accountName", "accountType"));
+		return new Tracking(new User("authToken", "accountName", "accountType"), userList);
 	}
 
 	@Override

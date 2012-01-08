@@ -2,6 +2,10 @@ package feri.rvir.elocator.rest.resource.user;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -24,6 +28,7 @@ public class User implements Serializable {
 		return authToken;
 	}
 
+	@XmlElement
 	public void setAuthToken(String authToken) {
 		this.authToken = authToken;
 	}
@@ -32,6 +37,7 @@ public class User implements Serializable {
 		return accountName;
 	}
 
+	@XmlElement
 	public void setAccountName(String accountName) {
 		this.accountName = accountName;
 	}
@@ -40,6 +46,7 @@ public class User implements Serializable {
 		return accountType;
 	}
 
+	@XmlElement
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}

@@ -1,8 +1,12 @@
 package feri.rvir.elocator.rest.resource.location;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.restlet.resource.ServerResource;
+
+import feri.rvir.elocator.rest.resource.user.User;
 
 public class LocationServerResource extends ServerResource implements LocationResource {
 
@@ -14,7 +18,7 @@ public class LocationServerResource extends ServerResource implements LocationRe
 		System.out.println(authToken);
 		System.out.println(timestamp);
 		// TODO pridobi lokacijo iz baze glede na authToken uporabnika in Timestamp
-		return null;
+		return new Location(new User("authToken", "accountName", "accountType"), Calendar.getInstance(), 223, 346);
 	}
 
 	@Override
