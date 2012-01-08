@@ -2,41 +2,58 @@ package feri.rvir.elocator.rest.resource.user;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class User implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String email;
-	private String name;
+	private String authToken;
+	private String accountName;
+	private String accountType;
 	
 	public User() {
 		
 	}
-	
-	public User(String email, String name) {
-		this.email = email;
-		this.name = name;
+
+	public User(String authToken, String accountName, String accountType) {
+		this.authToken = authToken;
+		this.accountName = accountName;
+		this.accountType = accountType;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getAuthToken() {
+		return authToken;
 	}
-	
-	public void setEmail(String email) {
-		this.email = email;
+
+	@XmlElement
+	public void setAuthToken(String authToken) {
+		this.authToken = authToken;
 	}
-	
-	public String getName() {
-		return name;
+
+	public String getAccountName() {
+		return accountName;
 	}
-	
-	public void setName(String name) {
-		this.name = name;
+
+	@XmlElement
+	public void setAccountName(String accountName) {
+		this.accountName = accountName;
+	}
+
+	public String getAccountType() {
+		return accountType;
+	}
+
+	@XmlElement
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
 	}
 	
 	@Override
 	public String toString() {
-		return email;
+		return accountName+" "+accountType+" "+authToken;
 	}
 	
 }
