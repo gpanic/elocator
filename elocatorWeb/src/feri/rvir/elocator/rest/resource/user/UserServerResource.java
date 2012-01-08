@@ -3,25 +3,28 @@ package feri.rvir.elocator.rest.resource.user;
 import org.restlet.resource.ServerResource;
 
 public class UserServerResource extends ServerResource implements UserResource {
-	
-	private static volatile User user;
 
 	@Override
 	public User retrieve() {
-		System.out.println("RETRIEVE USER REQUEST");
-		return user;
+		System.out.println("RETRIEVE UserServerResource");
+		String authToken=(String)getRequest().getAttributes().get("authToken");
+		System.out.println(authToken);
+		//TODO preko authTokena se pridobi uporabnik iz baze
+		return null;
 	}
 
 	@Override
 	public void store(User user) {
-		System.out.println("STORE USER REQUEST");
-		UserServerResource.user=user;
+		System.out.println("STORE UserServerResource");
+		System.out.println(user.getAuthToken());
+		//TODO uporabnik se hrani v bazo
 	}
 
 	@Override
-	public void remove() {
-		System.out.println("REMOVE USER REQUEST");
-		user=null;
+	public void remove(String authKey) {
+		System.out.println("REMOVE UserServerResource");
+		System.out.println(authKey);
+		//TODO uporabnik se izbrise iz baze
 	}
 
 }
