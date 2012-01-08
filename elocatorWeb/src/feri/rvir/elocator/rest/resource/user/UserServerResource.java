@@ -4,7 +4,7 @@ import org.restlet.resource.ServerResource;
 
 public class UserServerResource extends ServerResource implements UserResource {
 	
-	private static volatile User user=new User("gregor.panic@gmail.com", "Gregor Panic");
+	private static volatile User user;
 
 	@Override
 	public User retrieve() {
