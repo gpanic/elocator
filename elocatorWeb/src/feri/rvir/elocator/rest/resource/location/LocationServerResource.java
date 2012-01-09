@@ -12,7 +12,7 @@ public class LocationServerResource extends ServerResource implements LocationRe
 	@Override
 	public Location retrieve() {
 		System.out.println("RETRIEVE LocationServerResource");
-		String authToken=(String)getRequest().getAttributes().get("authToken");
+		String authToken=(String)getRequest().getAttributes().get("accountName");
 		String timestamp=(String)getRequest().getAttributes().get("timestamp");
 		System.out.println(authToken);
 		System.out.println(timestamp);
@@ -28,7 +28,7 @@ public class LocationServerResource extends ServerResource implements LocationRe
 	}
 
 	@Override
-	public void remove(String authToken, Timestamp timestamp) {
+	public void remove(String accountName, Timestamp timestamp) {
 		System.out.println("REMOVE LocationServerResource");
 		// TODO izbrise lokacijo ustreznega uporabnika in glede na cas
 

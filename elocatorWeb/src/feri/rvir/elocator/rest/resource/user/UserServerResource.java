@@ -7,7 +7,7 @@ public class UserServerResource extends ServerResource implements UserResource {
 	@Override
 	public User retrieve() {
 		System.out.println("RETRIEVE UserServerResource");
-		String authToken=(String)getRequest().getAttributes().get("authToken");
+		String authToken=(String)getRequest().getAttributes().get("accountName");
 		System.out.println(authToken);
 		//TODO preko authTokena se pridobi uporabnik iz baze
 		return new User("authTokenExample","accountNameExample","accountTypeExampleeee");
@@ -21,9 +21,9 @@ public class UserServerResource extends ServerResource implements UserResource {
 	}
 
 	@Override
-	public void remove(String authKey) {
+	public void remove(String accountName) {
 		System.out.println("REMOVE UserServerResource");
-		System.out.println(authKey);
+		System.out.println(accountName);
 		//TODO uporabnik se izbrise iz baze
 	}
 

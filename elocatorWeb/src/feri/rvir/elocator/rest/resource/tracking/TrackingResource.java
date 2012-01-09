@@ -13,12 +13,12 @@ public interface TrackingResource {
 	public void store(Tracking tracking);
 	
 	@Put
-	public void store(String authTokenTracker, String authTokenBeingTracked);
+	public void store(String accountNameTracker, String accountNameBeingTracked);
 	
 	@Delete
-	public void remove(String authToken);
+	public void remove(String accountName);
 	
 	@Delete
-	public void remove(String authTokenTracker, String authTokenBeingTracked);
+	public void remove(String accountNameTracker, String accountNameBeingTracked);
 
 }

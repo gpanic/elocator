@@ -15,6 +15,6 @@ public interface LocationResource {
 	public void store(Location location);
 	
 	@Delete
-	public void remove(String authToken, Timestamp timestamp);
+	public void remove(String accountName, Timestamp timestamp);
 
 }

@@ -16,9 +16,9 @@ public class RestletApplication extends Application {
 	public Restlet createInboundRoot() {
 		Router router=new Router(getContext());
 		router.attach("/users",UsersServerResource.class);
-		router.attach("/users/{authToken}",UserServerResource.class);
-		router.attach("/users/{authToken}/tracking",TrackingServerResource.class);
-		router.attach("/users/{authToken}/location/{timestamp}",LocationServerResource.class);
+		router.attach("/users/{accountName}",UserServerResource.class);
+		router.attach("/users/{accountName}/tracking",TrackingServerResource.class);
+		router.attach("/users/{accountName}/location/{timestamp}",LocationServerResource.class);
 		return router;
 	}
 
