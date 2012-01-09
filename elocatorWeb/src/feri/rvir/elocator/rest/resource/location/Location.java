@@ -67,7 +67,7 @@ public class Location implements Serializable {
 
 	@Override
 	public String toString() {
-		return user.getAccountName()+" "+timestamp+" "+latitude+" "+longitude;
+		return user.getUsername()+" "+timestamp+" "+latitude+" "+longitude;
 	}
 
 }

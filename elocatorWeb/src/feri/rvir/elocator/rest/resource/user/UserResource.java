@@ -13,6 +13,6 @@ public interface UserResource {
 	public void store(User user);
 	
 	@Delete
-	public void remove(String accountName);
+	public void remove(int id);
 
 }

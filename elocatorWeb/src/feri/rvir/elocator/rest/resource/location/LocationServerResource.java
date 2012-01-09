@@ -12,26 +12,21 @@ public class LocationServerResource extends ServerResource implements LocationRe
 	@Override
 	public Location retrieve() {
 		System.out.println("RETRIEVE LocationServerResource");
-		String authToken=(String)getRequest().getAttributes().get("accountName");
+		String username=(String)getRequest().getAttributes().get("username");
 		String timestamp=(String)getRequest().getAttributes().get("timestamp");
-		System.out.println(authToken);
+		System.out.println(username);
 		System.out.println(timestamp);
-		// TODO pridobi lokacijo iz baze glede na authToken uporabnika in Timestamp
-		return new Location(new User("authToken", "accountName", "accountType"), Calendar.getInstance(), 223, 346);
+		return new Location(new User("usernameExample", "passwordExample"), Calendar.getInstance(), 223, 346);
 	}
 
 	@Override
 	public void store(Location location) {
 		System.out.println("STORE LocationServerResource");
-		// TODO zapise lokacijo v bazo
-
 	}
 
 	@Override
-	public void remove(String accountName, Timestamp timestamp) {
+	public void remove(String username, Timestamp timestamp) {
 		System.out.println("REMOVE LocationServerResource");
-		// TODO izbrise lokacijo ustreznega uporabnika in glede na cas
-
 	}
 
 }
