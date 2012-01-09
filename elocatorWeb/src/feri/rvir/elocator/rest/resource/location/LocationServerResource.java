@@ -2,7 +2,6 @@ package feri.rvir.elocator.rest.resource.location;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import org.restlet.resource.ServerResource;
 
