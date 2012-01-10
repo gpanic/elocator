@@ -17,11 +17,11 @@ public class UserDao {
 		em.close();
 	}
 	
-	public User getUserByAuthToken(String authToken) {
+	public User getUser(String username) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		Query q = em.createQuery("SELECT u FROM User u WHERE u.authToken = :authToken");
-		q.setParameter("authToken", authToken);
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
+		q.setParameter("username", username);
 		User u = (User) q.getSingleResult();
 		em.getTransaction().commit();
 		em.close();
@@ -38,11 +38,11 @@ public class UserDao {
 		return users;
 	}
 	
-	public void deleteUser(String authToken) {
+	public void deleteUser(String username) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		Query q = em.createQuery("SELECT u FROM User u WHERE u.authToken = :authToken");
-		q.setParameter("authToken", authToken);
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
+		q.setParameter("username", username);
 		User u = (User) q.getSingleResult();
 		em.remove(u);
 		em.getTransaction().commit();
