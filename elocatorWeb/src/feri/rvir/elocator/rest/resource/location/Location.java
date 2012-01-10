@@ -2,27 +2,46 @@ package feri.rvir.elocator.rest.resource.location;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.google.appengine.api.datastore.Key;
 
 import feri.rvir.elocator.rest.resource.user.User;
 
 @XmlRootElement
+@Entity
 public class Location implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Key key;
+
+	@OneToOne(cascade = CascadeType.ALL)
 	private User user;
-	private Calendar timestamp;
+	
+	private Date timestamp;
 	private double latitude;
 	private double longitude;
-	
+
 	public Location() {
-		
+
 	}
-	
-	public Location(User user, Calendar timestamp, double latitude, double longitude) {
+
+	public Location(User user, Date timestamp, double latitude,
+			double longitude) {
 		this.user = user;
 		this.timestamp = timestamp;
 		this.latitude = latitude;
@@ -38,12 +57,12 @@ public class Location implements Serializable {
 		this.user = user;
 	}
 
-	public Calendar getTimestamp() {
+	public Date getTimestamp() {
 		return timestamp;
 	}
 
 	@XmlElement
-	public void setTimestamp(Calendar timestamp) {
+	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
 
@@ -67,7 +86,16 @@ public class Location implements Serializable {
 
 	@Override
 	public String toString() {
-		return user.getAccountName()+" "+timestamp+" "+latitude+" "+longitude;
+		return user.getAccountName() + " " + timestamp + " " + latitude + " "
+				+ longitude;
+	}
+
+	public Key getKey() {
+		return key;
+	}
+
+	public void setKey(Key key) {
+		this.key = key;
 	}
 
 }
