@@ -11,40 +11,36 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 	@Override
 	public Tracking retrieve() {
 		System.out.println("RETRIEVE TrackingServerResource");
-		String authToken=(String)getRequest().getAttributes().get("authToken");
-		System.out.println(authToken);
-		// TODO pridobi objekt Tracking glede na authToken uporabnika
+		String username=(String)getRequest().getAttributes().get("username");
+		System.out.println(username);
+		// TODO pridobi objekt Tracking glede na username uporabnika
 		ArrayList<User> userList=new ArrayList<User>();
-		userList.add(new User("authToken", "accountName", "accountType"));
-		userList.add(new User("authToken", "accountName", "accountType"));
-		return new Tracking(new User("authToken", "accountName", "accountType"), userList);
+		userList.add(new User("usernameExample","passwordExample"));
+		userList.add(new User("usernameExample","passwordExample"));
+		return new Tracking(new User("usernameExample","passwordExample"), userList);
 	}
 
 	@Override
 	public void store(Tracking tracking) {
 		System.out.println("STORE TrackingServerResource");
-		// TODO zapise Tracking objekt v bazo
 
 	}
 
 	@Override
-	public void store(String authTokenTracker, String authTokenBeingTracked) {
+	public void store(String usernameTracker, String usernameBeingTracked) {
 		System.out.println("STORE2 TrackingServerResource");
-		// TODO uporabniku s prvim authToken v Tracking objektu doda uporabnika z drugim authToken
 
 	}
 
 	@Override
-	public void remove(String authToken) {
+	public void remove(String username) {
 		System.out.println("REMOVE TrackingServerResource");
-		// TODO izbriše vse uporabnike, ki katerim uprabnik s authToken sledi
 
 	}
 
 	@Override
-	public void remove(String authTokenTracker, String authTokenBeingTracked) {
+	public void remove(String usernameTracker, String usernameBeingTracked) {
 		System.out.println("REMOVE2 TrackingServerResource");
-		// TODO izbriše uporabnika s drugim authToken, in sicer na seznamu uporabnika s prvim authToken
 
 	}
 

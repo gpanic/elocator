@@ -1,7 +1,6 @@
 package feri.rvir.elocator.rest.resource.location;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -14,26 +13,24 @@ public class LocationServerResource extends ServerResource implements LocationRe
 	@Override
 	public Location retrieve() {
 		System.out.println("RETRIEVE LocationServerResource");
-		String authToken=(String)getRequest().getAttributes().get("authToken");
+		String username=(String)getRequest().getAttributes().get("username");
 		String timestamp=(String)getRequest().getAttributes().get("timestamp");
-		System.out.println(authToken);
+		System.out.println(username);
 		System.out.println(timestamp);
 		// TODO pridobi lokacijo iz baze glede na authToken uporabnika in Timestamp
-		return new Location(new User("authToken", "accountName", "accountType"), new Date(), 223, 346);
+
+		return new Location(new User("usernameExample", "passwordExample"), new Date(), 223, 346);
 	}
 
 	@Override
 	public void store(Location location) {
 		System.out.println("STORE LocationServerResource");
-		// TODO zapise lokacijo v bazo
-
 	}
 
 	@Override
-	public void remove(String authToken, Timestamp timestamp) {
-		System.out.println("REMOVE LocationServerResource");
-		// TODO izbrise lokacijo ustreznega uporabnika in glede na cas
-
+	public void remove(String username, Timestamp timestamp) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

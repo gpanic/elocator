@@ -23,11 +23,7 @@ public class UsersServerResource extends ServerResource implements
 	public void remove() {
 		System.out.println("REMOVE UsersServerResource");
 		// TODO iz baze izbrise vse uporabnike
-		ArrayList<User> users = (ArrayList<User>) userDao.getAll();
-		for (User j : users) {
-			userDao.deleteUser(j.getAuthToken());
-			System.out.println("User " + j.getAuthToken() + " deleted");
-		}
+
 	}
 
 }

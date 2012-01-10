@@ -86,8 +86,7 @@ public class Location implements Serializable {
 
 	@Override
 	public String toString() {
-		return user.getAccountName() + " " + timestamp + " " + latitude + " "
-				+ longitude;
+		return user.getUsername()+" "+timestamp+" "+latitude+" "+longitude;
 	}
 
 	public Key getKey() {
@@ -96,6 +95,7 @@ public class Location implements Serializable {
 
 	public void setKey(Key key) {
 		this.key = key;
+		
 	}
 
 }

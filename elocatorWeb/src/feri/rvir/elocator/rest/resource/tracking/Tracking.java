@@ -61,9 +61,9 @@ public class Tracking implements Serializable {
 
 	@Override
 	public String toString() {
-		String s = tracker.getAccountName() + ": ";
-		for (User u : userList) {
-			s += u.getAccountName() + " ";
+		String s=tracker.getUsername()+": ";
+		for(User u:userList) {
+			s+=u.getUsername()+" ";
 		}
 		return s;
 	}

@@ -40,20 +40,20 @@ public class ElocatorWebServlet extends HttpServlet {
 		w.println("Number of saved trackings: " + trackings.size());
 		w.println("Number of saved locations: " + locations.size());
 
-		User u = new User("tokenR", "accnamesthfadsfds", "typeR");
+		//User u = new User("tokenR", "accnamesthfadsfds", "typeR");
 
 		Tracking t = new Tracking();
-		t.setTracker(u);
+		//t.setTracker(u);
 		// trackingDao.addTracking(t);
 
 		for (User j : users) {
 			// userDao.deleteUser(j.getAuthToken());
-			w.println(j.getAuthToken());
+			//w.println(j.getAuthToken());
 			// w.println("Deleted");
 		}
 
 		Location l = new Location();
-		User c = new User("sec", "locationName", "type1");
+		//User c = new User("sec", "locationName", "type1");
 		//userDao.deleteUser("sec");
 		// l.setUser(c);
 		// l.setLatitude(4514.0);

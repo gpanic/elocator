@@ -11,29 +11,23 @@ public class UserServerResource extends ServerResource implements UserResource {
 	@Override
 	public User retrieve() {
 		System.out.println("RETRIEVE UserServerResource");
-		String authToken=(String)getRequest().getAttributes().get("authToken");
+		String authToken=(String)getRequest().getAttributes().get("username");
 		System.out.println(authToken);
 		//TODO preko authTokena se pridobi uporabnik iz baze
-		
-		User u = userDao.getUserByAuthToken(authToken);
-		return u;
-		//new User("authTokenExample","accountNameExample","accountTypeExampleeee");
+		return new User("usernameExample","passwordExample");
 	}
 
 	@Override
 	public void store(User user) {
 		System.out.println("STORE UserServerResource");
-		System.out.println(user.getAuthToken());
 		//TODO uporabnik se hrani v bazo
 		userDao.addUser(user);
 	}
 
 	@Override
-	public void remove(String authKey) {
+	public void remove(int id) {
 		System.out.println("REMOVE UserServerResource");
-		System.out.println(authKey);
 		//TODO uporabnik se izbrise iz baze
-		userDao.deleteUser(authKey);
 	}
 
 }
