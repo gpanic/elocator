@@ -8,8 +8,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ElocatorAndroidActivity extends Activity {
-	private boolean signedIn=false;
+public class MainActivity extends Activity {
+	private boolean signedIn=true;
 	
     /** Called when the activity is first created. */
     @Override
@@ -17,10 +17,11 @@ public class ElocatorAndroidActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         if(signedIn) {
-        	findViewById(R.id.linearLayout2).setVisibility(View.INVISIBLE);
+        	Intent i=new Intent(this,TabMenuActivity.class);
+			startActivity(i);
         }
         
-        Button signInButton=(Button)findViewById(R.id.buttonSignIn);
+        Button signInButton=(Button)findViewById(R.id.main_buttonSignIn);
         signInButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -28,11 +29,11 @@ public class ElocatorAndroidActivity extends Activity {
 			}
 		});
         
-        TextView registerLink=(TextView)findViewById(R.id.textViewRegister);
+        TextView registerLink=(TextView)findViewById(R.id.main_textViewRegister);
         registerLink.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent i=new Intent(v.getContext(),RegisterActivity.class);
+				Intent i=new Intent(v.getContext(),RegistrationActivity.class);
 				startActivity(i);
 			}
 		});
