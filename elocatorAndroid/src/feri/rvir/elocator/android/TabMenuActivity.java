@@ -20,13 +20,18 @@ public class TabMenuActivity extends TabActivity {
 		TabSpec spec;
 		
 		spec=mTabHost.newTabSpec("trackingOverview")
-				.setIndicator("Overview",getResources().getDrawable(R.drawable.ic_tab_tracking_overview_icon))
+				.setIndicator("Overview",getResources().getDrawable(R.drawable.ic_tab_tracking_overview))
 				.setContent(new Intent(this,TrackingOverviewActivity.class));
 		mTabHost.addTab(spec);
 		
 		spec=mTabHost.newTabSpec("trackingDetails")
-				.setIndicator("Details",getResources().getDrawable(R.drawable.ic_tab_tracking_details_icon))
+				.setIndicator("Details",getResources().getDrawable(R.drawable.ic_tab_tracking_details))
 				.setContent(new Intent(this,TrackingDetailsActivity.class));
+		mTabHost.addTab(spec);
+		
+		spec=mTabHost.newTabSpec("sync")
+				.setIndicator("Sync",getResources().getDrawable(R.drawable.ic_tab_sync))
+				.setContent(new Intent(this,SyncActivity.class));
 		mTabHost.addTab(spec);
 		
 	}

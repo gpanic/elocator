@@ -30,4 +30,10 @@ public class UserServerResource extends ServerResource implements UserResource {
 		//TODO uporabnik se izbrise iz baze
 	}
 
+	@Override
+	public UserErrorMessage register(User user) {
+		System.out.println(user);
+		return new UserErrorMessage(false,"Ni slo.");
+	}
+
 }
