@@ -19,7 +19,6 @@ import com.google.appengine.api.datastore.Key;
 
 import feri.rvir.elocator.rest.resource.user.User;
 
-@XmlRootElement
 @Entity
 public class Location implements Serializable {
 
@@ -52,7 +51,6 @@ public class Location implements Serializable {
 		return user;
 	}
 
-	@XmlElement
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -61,7 +59,6 @@ public class Location implements Serializable {
 		return timestamp;
 	}
 
-	@XmlElement
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
@@ -70,7 +67,6 @@ public class Location implements Serializable {
 		return latitude;
 	}
 
-	@XmlElement
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
@@ -79,7 +75,6 @@ public class Location implements Serializable {
 		return longitude;
 	}
 
-	@XmlElement
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}

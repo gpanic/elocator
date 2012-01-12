@@ -6,12 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-import com.google.appengine.api.datastore.Key;
-
-@XmlRootElement
 @Entity
 public class User implements Serializable {
 
@@ -34,8 +29,7 @@ public class User implements Serializable {
 	public String getUsername() {
 		return username;
 	}
-
-	@XmlElement
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -43,8 +37,7 @@ public class User implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-
-	@XmlElement
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}

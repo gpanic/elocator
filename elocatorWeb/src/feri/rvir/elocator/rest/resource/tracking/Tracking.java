@@ -17,7 +17,6 @@ import com.google.appengine.api.datastore.Key;
 
 import feri.rvir.elocator.rest.resource.user.User;
 
-@XmlRootElement
 @Entity
 public class Tracking implements Serializable {
 
@@ -45,7 +44,6 @@ public class Tracking implements Serializable {
 		return tracker;
 	}
 
-	@XmlElement
 	public void setTracker(User tracker) {
 		this.tracker = tracker;
 	}
@@ -54,7 +52,6 @@ public class Tracking implements Serializable {
 		return userList;
 	}
 
-	@XmlElement(name = "beingTracked")
 	public void setUserList(ArrayList<User> userList) {
 		this.userList = userList;
 	}

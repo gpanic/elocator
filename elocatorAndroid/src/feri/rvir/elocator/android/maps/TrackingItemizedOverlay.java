@@ -44,7 +44,7 @@ public class TrackingItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	protected boolean onTap(int index) {
 		OverlayItem item=mOverlays.get(index);
 		Builder dialog=new Builder(mContext);
-		dialog.setTitle("User:"+item.getTitle());
+		dialog.setTitle("User: "+item.getTitle());
 		dialog.setMessage(item.getSnippet());
 		dialog.setIcon(R.drawable.ic_dialog);
 		dialog.show();

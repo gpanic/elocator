@@ -1,5 +1,10 @@
 package feri.rvir.elocator.android;
 
+import org.restlet.resource.ClientResource;
+
+import feri.rvir.elocator.rest.resource.user.User;
+import feri.rvir.elocator.rest.resource.user.UserResource;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +21,14 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        /*
+        ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/asdf");
+        cr.setRequestEntityBuffering(true);
+        UserResource resource=cr.wrap(UserResource.class);
+        System.out.println(resource.register(new User("greg", "panic")));
+        */
+        
         if(signedIn) {
         	Intent i=new Intent(this,TabMenuActivity.class);
 			startActivity(i);
