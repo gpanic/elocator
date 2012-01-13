@@ -25,9 +25,6 @@ public class UserServerResource extends ServerResource implements UserResource {
 		if(operation.equals("register")) {
 			System.out.println("REGISTER");
 			return new UserErrorMessage(true, "Registration successful.");
-		} else if (operation.equals("signin")) {
-			System.out.println("SIGNIN");
-			return new UserErrorMessage(true, "Signed in as: "+user.getUsername()+".");
 		}
 		return null;
 	}
