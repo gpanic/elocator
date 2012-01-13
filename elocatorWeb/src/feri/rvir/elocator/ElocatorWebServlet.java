@@ -29,66 +29,18 @@ public class ElocatorWebServlet extends HttpServlet {
 		resp.getWriter().println("Hello, world");
 
 		UserDao userDao = new UserDao();
-		TrackingDao trackingDao = new TrackingDao();
-		LocationDao ldao = new LocationDao();
-
-		List<Tracking> trackings = trackingDao.getAllTrackings();
+		User u = new User("username","password");
 		List<User> users = userDao.getAll();
-		List<Location> locations = ldao.getAll();
+	    userDao.addUser(u);
+		//LocationDao ldao = new LocationDao();
+		
+		//User u = userDao.getUser("username1");
 
-		w.println("Number of saved users: " + users.size());
-		w.println("Number of saved trackings: " + trackings.size());
-		w.println("Number of saved locations: " + locations.size());
-
-		//User u = new User("tokenR", "accnamesthfadsfds", "typeR");
-
-		Tracking t = new Tracking();
-		//t.setTracker(u);
-		// trackingDao.addTracking(t);
-
-		for (User j : users) {
-			// userDao.deleteUser(j.getAuthToken());
-			//w.println(j.getAuthToken());
-			// w.println("Deleted");
+		// userDao.merge(u);
+		
+		for (User h:users) {
+			w.println(h.getUsername());
 		}
 
-		Location l = new Location();
-		//User c = new User("sec", "locationName", "type1");
-		//userDao.deleteUser("sec");
-		// l.setUser(c);
-		// l.setLatitude(4514.0);
-		// ldao.addLocation(l);
-		
-//		Tracking novi = new Tracking();
-//		User sec = userDao.getUserByAuthToken("sec");
-//		novi.setTracker(sec);
-//		trackingDao.addTracking(novi);
-
-		/*
-		 * User u = new User("tokenR", "accnamesthfadsfds", "typeR");
-		 * 
-		 * Tracking t = new Tracking(); t.setTracker(u);
-		 * trackingDao.addTracking(t);
-		 * 
-		 * w.println("Trackings: " + trackings.size()); for (Tracking p :
-		 * trackings) { trackingDao.deleteTrackByUserId(p.getKey());
-		 * w.println("Deleted"); }
-		 * 
-		 * User ena = new User("token1", "accountname1", "type1"); User dva =
-		 * new User("token2", "accountname2", "type2");
-		 * 
-		 * userji.add(ena); userji.add(dva);
-		 * 
-		 * Location l = new Location(); User c = new User("security",
-		 * "locationName", "type1"); l.setUser(c); l.setLatitude(4514.0);
-		 * 
-		 * Date date = new Date();
-		 * 
-		 * 
-		 * l.setTimestamp(date); ldao.addLocation(l);
-		 * 
-		 * for (Location j : locations) { ldao.deleteLocationByKey(j.getKey());
-		 * w.println("Deleted"); }
-		 */
 	}
 }

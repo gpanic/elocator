@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,40 +29,37 @@ public class Location implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Key key;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	private User user;
 	
+	private Key userKey;
 	private Date timestamp;
 	private double latitude;
 	private double longitude;
 
 	public Location() {
-
 	}
 
-	public Location(User user, Date timestamp, double latitude,
+	public Location(Key key, Key userKey, Date timestamp, double latitude,
 			double longitude) {
-		this.user = user;
+		super();
+		this.key = key;
+		this.userKey = userKey;
 		this.timestamp = timestamp;
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 
-	public User getUser() {
-		return user;
+	public Key getUserKey() {
+		return userKey;
 	}
 
-	@XmlElement
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserKey(Key userKey) {
+		this.userKey = userKey;
 	}
 
 	public Date getTimestamp() {
 		return timestamp;
 	}
 
-	@XmlElement
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
@@ -70,7 +68,6 @@ public class Location implements Serializable {
 		return latitude;
 	}
 
-	@XmlElement
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
@@ -79,14 +76,8 @@ public class Location implements Serializable {
 		return longitude;
 	}
 
-	@XmlElement
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
-	}
-
-	@Override
-	public String toString() {
-		return user.getUsername()+" "+timestamp+" "+latitude+" "+longitude;
 	}
 
 	public Key getKey() {

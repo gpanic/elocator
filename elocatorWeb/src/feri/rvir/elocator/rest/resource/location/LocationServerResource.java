@@ -18,8 +18,8 @@ public class LocationServerResource extends ServerResource implements LocationRe
 		System.out.println(username);
 		System.out.println(timestamp);
 		// TODO pridobi lokacijo iz baze glede na authToken uporabnika in Timestamp
-
-		return new Location(new User("usernameExample", "passwordExample"), new Date(), 223, 346);
+		return null;
+		//return new Location(new User("usernameExample", "passwordExample"), new Date(), 223, 346);
 	}
 
 	@Override

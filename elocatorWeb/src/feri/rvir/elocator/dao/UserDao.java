@@ -48,5 +48,16 @@ public class UserDao {
 		em.getTransaction().commit();
 		em.close();
 	}
+
+	public void merge(User u) {
+		// TODO Auto-generated method stub
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
+		q.setParameter("username", u.getUsername());
+		User p = (User) q.getSingleResult();
+		em.merge(p);
+		em.getTransaction().commit();
+	}
 	
 }

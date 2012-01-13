@@ -17,7 +17,7 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 		ArrayList<User> userList=new ArrayList<User>();
 		userList.add(new User("usernameExample","passwordExample"));
 		userList.add(new User("usernameExample","passwordExample"));
-		return new Tracking(new User("usernameExample","passwordExample"), userList);
+		return null;
 	}
 
 	@Override

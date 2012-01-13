@@ -26,48 +26,9 @@ public class Tracking implements Serializable {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Key key;
+	private Key trackerKey;
+	private Key child;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	private User tracker;
-	@OneToMany
-	private ArrayList<User> userList;
-
-	public Tracking() {
-
-	}
-
-	public Tracking(User tracker, ArrayList<User> userList) {
-		this.tracker = tracker;
-		this.userList = userList;
-	}
-
-	public User getTracker() {
-		return tracker;
-	}
-
-	@XmlElement
-	public void setTracker(User tracker) {
-		this.tracker = tracker;
-	}
-
-	public ArrayList<User> getUserList() {
-		return userList;
-	}
-
-	@XmlElement(name = "beingTracked")
-	public void setUserList(ArrayList<User> userList) {
-		this.userList = userList;
-	}
-
-	@Override
-	public String toString() {
-		String s=tracker.getUsername()+": ";
-		for(User u:userList) {
-			s+=u.getUsername()+" ";
-		}
-		return s;
-	}
-
 	public Key getKey() {
 		return key;
 	}
