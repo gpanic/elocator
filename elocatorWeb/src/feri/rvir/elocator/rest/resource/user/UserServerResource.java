@@ -36,4 +36,10 @@ public class UserServerResource extends ServerResource implements UserResource {
 		return new UserErrorMessage(false,"Ni slo.");
 	}
 
+	@Override
+	public UserErrorMessage signIn(User user) {
+		System.out.println(user);
+		return new UserErrorMessage(false,"Ni slo.");
+	}
+
 }

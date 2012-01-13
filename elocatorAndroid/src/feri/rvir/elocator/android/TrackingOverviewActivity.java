@@ -32,6 +32,7 @@ public class TrackingOverviewActivity extends MapActivity {
 		itemizedOverlay = new TrackingItemizedOverlay(drawable,this);
 		
 		addOverlayItem(new GeoPoint(19240000,-99120000), "gregor.panic", Calendar.getInstance());
+		addOverlayItem(new GeoPoint(20000000,-99120000), "jernej.legvart", Calendar.getInstance());
 		
 	}
 	

@@ -18,5 +18,8 @@ public interface UserResource {
 	
 	@Post
 	public UserErrorMessage register(User user);
+	
+	@Post
+	public UserErrorMessage signIn(User user);
 
 }

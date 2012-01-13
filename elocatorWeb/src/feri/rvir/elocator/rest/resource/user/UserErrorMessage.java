@@ -6,24 +6,25 @@ public class UserErrorMessage implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private boolean created;
+	private boolean ok;
 	private String message;
 	
 	public UserErrorMessage() {
 		
 	}
-
-	public UserErrorMessage(boolean created, String message) {
-		this.created = created;
+	
+	public UserErrorMessage(boolean ok, String message) {
+		super();
+		this.ok = ok;
 		this.message = message;
 	}
 
-	public boolean isCreated() {
-		return created;
+	public boolean isOk() {
+		return ok;
 	}
 
-	public void setCreated(boolean created) {
-		this.created = created;
+	public void setOk(boolean ok) {
+		this.ok = ok;
 	}
 
 	public String getMessage() {
@@ -33,7 +34,7 @@ public class UserErrorMessage implements Serializable {
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 	@Override
 	public String toString() {
 		return message;
