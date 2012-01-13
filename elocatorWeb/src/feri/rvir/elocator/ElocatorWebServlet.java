@@ -31,7 +31,7 @@ public class ElocatorWebServlet extends HttpServlet {
 		UserDao userDao = new UserDao();
 		User u = new User("username","password");
 		List<User> users = userDao.getAll();
-	    userDao.addUser(u);
+	    //userDao.addUser(u);
 		//LocationDao ldao = new LocationDao();
 		
 		//User u = userDao.getUser("username1");
