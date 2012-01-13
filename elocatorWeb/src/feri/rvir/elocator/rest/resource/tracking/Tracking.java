@@ -17,7 +17,6 @@ import com.google.appengine.api.datastore.Key;
 
 import feri.rvir.elocator.rest.resource.user.User;
 
-@XmlRootElement
 @Entity
 public class Tracking implements Serializable {
 
@@ -29,12 +28,17 @@ public class Tracking implements Serializable {
 	private Key trackerKey;
 	private Key child;
 	
-	public Key getKey() {
-		return key;
+	public Key getTrackerKey() {
+		return trackerKey;
 	}
-
-	public void setKey(Key key) {
-		this.key = key;
+	public void setTrackerKey(Key trackerKey) {
+		this.trackerKey = trackerKey;
+	}
+	public Key getChild() {
+		return child;
+	}
+	public void setChild(Key child) {
+		this.child = child;
 	}
 	
 }

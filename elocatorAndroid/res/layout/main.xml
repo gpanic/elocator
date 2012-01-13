@@ -1,12 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_linearLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/main_linearLayout2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello" />
+        android:orientation="vertical" >
 
+	    <TextView
+	        android:id="@+id/main_textViewLargeSignIn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Sign in"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />	
+	    <TextView
+	        android:id="@+id/main_textViewUsername"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="5dp"
+	        android:layout_marginTop="10dp"
+	        android:text="Username:" />
+	
+	    <EditText
+	        android:id="@+id/main_editTextUsername"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" >
+	        <requestFocus />
+	    </EditText>	
+	    <TextView
+	        android:id="@+id/main_textViewPassword"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="5dp"
+	        android:layout_marginTop="10dp"
+	        android:text="Password:" />
+	
+	    <EditText
+	        android:id="@+id/main_editTextPassword"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:inputType="textPassword" />	
+	    <Button
+	        android:id="@+id/main_buttonSignIn"
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:layout_marginTop="10dp"
+	        android:text="Sign in" />
+	    
+        <TextView
+            android:id="@+id/main_textViewRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:text="Register" />
+    
+	</LinearLayout>
+		
 </LinearLayout>
