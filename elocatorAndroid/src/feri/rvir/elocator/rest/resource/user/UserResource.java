@@ -17,9 +17,5 @@ public interface UserResource {
 	public void remove(int id);
 	
 	@Post
-	public UserErrorMessage register(User user);
-	
-	@Post
-	public UserErrorMessage signIn(User user);
-
+	public UserErrorMessage accept(User user);
 }

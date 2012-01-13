@@ -8,9 +8,14 @@ public class User implements Serializable {
 
 	private String username;
 	private String password;
+
+//	@ManyToMany
+//	@JoinTable(name="USER_FAN",
+//	joinColumns=@JoinColumn(name="parent_id", referencedColumnName="USER_KEY"),
+//	inverseJoinColumns=@JoinColumn(name="child_id",referencedColumnName="USER_KEY"))
+//  not supported by GAE
 	
 	public User() {
-
 	}
 
 	public User(String username, String password) {
@@ -29,7 +34,7 @@ public class User implements Serializable {
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password;
 	}

@@ -19,7 +19,6 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	
 	private MainActivity thisActivity;
-	private boolean signedIn=false;
 	
     /** Called when the activity is first created. */
     @Override
@@ -40,14 +39,14 @@ public class MainActivity extends Activity {
 				
 				if(!(username.equals("")||password.equals(""))) {
 					try {
-						ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username);
+						ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/signin");
 				        cr.setRequestEntityBuffering(true);
 				        UserResource resource=cr.wrap(UserResource.class);
-				        UserErrorMessage response=resource.signIn(new User(username, password));
+				        UserErrorMessage response=resource.accept(new User(username, password));
 						if(response.isOk()) {
 							Intent i=new Intent(thisActivity,TabMenuActivity.class);
 							startActivity(i);
-							ToastCentered.makeText(thisActivity, "Signed in as: "+username+".").show();
+							ToastCentered.makeText(thisActivity, response.getMessage()).show();
 						} else {
 							usernameEditText.setText("");
 							passwordEditText.setText("");

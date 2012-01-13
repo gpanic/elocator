@@ -41,15 +41,16 @@ public class RegistrationActivity extends Activity {
 						repeat.equals(""))) {
 					if(password.equals(repeat)) {
 						try {
-							ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username);
+							ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/register");
+							cr.setRequestEntityBuffering(true);
 							UserResource resource=cr.wrap(UserResource.class);
-							UserErrorMessage response=resource.register(new User(username,password));
+							UserErrorMessage response=resource.accept(new User(username,password));
 							if(response.isOk()) {
-								ToastCentered.makeText(thisActivity, response.getMessage());
+								ToastCentered.makeText(thisActivity, response.getMessage()).show();
 								Intent i=new Intent(v.getContext(), MainActivity.class);
 								startActivity(i);
 							} else {
-								ToastCentered.makeText(thisActivity, response.getMessage());
+								ToastCentered.makeText(thisActivity, response.getMessage()).show();
 							}
 						} catch (Exception e) {
 							ToastCentered.makeText(thisActivity, "Connection to server failed.").show();
