@@ -11,6 +11,7 @@ import feri.rvir.elocator.rest.resource.location.LocationServerResource;
 import feri.rvir.elocator.rest.resource.tracking.TrackingServerResource;
 import feri.rvir.elocator.rest.resource.user.UserServerResource;
 import feri.rvir.elocator.rest.resource.user.UsersServerResource;
+import feri.rvir.elocator.util.Crypto;
 
 
 public class RestletApplication extends Application {
@@ -20,7 +21,7 @@ public class RestletApplication extends Application {
 		
 		ChallengeAuthenticator guard=new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "eLocator");
 		MapVerifier verifier=new MapVerifier();
-		verifier.getLocalSecrets().put("tests", "testw".toCharArray());
+		verifier.getLocalSecrets().put("tests", Crypto.hash("test", "SHA-1").toCharArray());
 		guard.setVerifier(verifier);
 		
 		Router router=new Router(getContext());
