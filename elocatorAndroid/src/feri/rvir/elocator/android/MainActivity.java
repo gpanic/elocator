@@ -27,40 +27,42 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
         thisActivity=this;
         
-        Button signInButton=(Button)findViewById(R.id.main_buttonSignIn);
-        signInButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				
-				EditText usernameEditText=(EditText)findViewById(R.id.main_editTextUsername);
-				EditText passwordEditText=(EditText)findViewById(R.id.main_editTextPassword);
-				
-				String username=usernameEditText.getText().toString();
-				String password=Crypto.hash(passwordEditText.getText().toString(), "SHA-1");
-				
-				UserSerializer.serialize(thisActivity, new User(username,password));
-				System.out.println(UserSerializer.unserialize(thisActivity));
-				
-				
-				if(!(username.equals("")||password.equals(Crypto.hash("", "SHA-1")))) {
-					new SignInTask().execute(username, password);
-				} else {
-					ToastCentered.makeText(thisActivity, "Fill out all the fields.").show();
+        if(UserSerializer.unserialize(thisActivity)!=null) {
+        	Intent i=new Intent(thisActivity, TabMenuActivity.class);
+        	startActivity(i);
+        } else {
+	        Button signInButton=(Button)findViewById(R.id.main_buttonSignIn);
+	        signInButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					
+					EditText usernameEditText=(EditText)findViewById(R.id.main_editTextUsername);
+					EditText passwordEditText=(EditText)findViewById(R.id.main_editTextPassword);
+					
+					String username=usernameEditText.getText().toString();
+					String password=Crypto.hash(passwordEditText.getText().toString(), "SHA-1");
+					
+					if(!(username.equals("")||password.equals(Crypto.hash("", "SHA-1")))) {
+						new SignInTask().execute(username, password);
+					} else {
+						ToastCentered.makeText(thisActivity, "Fill out all the fields.").show();
+					}
 				}
-			}
-			
-		});
-        
-        TextView registerLink=(TextView)findViewById(R.id.main_textViewRegister);
-        registerLink.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent i=new Intent(v.getContext(),RegistrationActivity.class);
-				startActivity(i);
-			}
-		});
+				
+			});
+	        
+	        TextView registerLink=(TextView)findViewById(R.id.main_textViewRegister);
+	        registerLink.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent i=new Intent(v.getContext(),RegistrationActivity.class);
+					startActivity(i);
+				}
+			});
+        }
     }
     
     private class SignInTask extends AsyncTask<String, Void, Integer> {
