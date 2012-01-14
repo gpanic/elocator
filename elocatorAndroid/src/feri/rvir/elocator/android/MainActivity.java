@@ -1,14 +1,17 @@
 package feri.rvir.elocator.android;
 
+import java.io.FileNotFoundException;
+
 import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.ClientResource;
 
 import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.ToastCentered;
-import feri.rvir.elocator.android.util.UserSerializer;
+import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.rest.resource.user.User;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,10 +33,13 @@ public class MainActivity extends Activity {
         
         thisActivity=this;
         
-        if(UserSerializer.unserialize(thisActivity)!=null) {
+        System.out.println(getString(R.string.user_data_store));
+        
+        if(isSignedIn()) {
         	Intent i=new Intent(thisActivity, TabMenuActivity.class);
         	startActivity(i);
         } else {
+        	
 	        Button signInButton=(Button)findViewById(R.id.main_buttonSignIn);
 	        signInButton.setOnClickListener(new OnClickListener() {
 				@Override
@@ -62,7 +68,29 @@ public class MainActivity extends Activity {
 					startActivity(i);
 				}
 			});
+	        
         }
+    }
+    
+    private boolean isSignedIn() {
+    	Serializer<User> seralizer=new Serializer<User>();
+    	try {
+			User u=seralizer.unserialize(openFileInput(getString(R.string.user_data_store)));
+			if(u!=null) {
+				return true;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    	return false;
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	Intent i=new Intent(Intent.ACTION_MAIN);
+    	i.addCategory(Intent.CATEGORY_HOME);
+    	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	startActivity(i);
     }
     
     private class SignInTask extends AsyncTask<String, Void, Integer> {
@@ -102,7 +130,12 @@ public class MainActivity extends Activity {
 				break;
 			case AUTHORIZED:
 				ToastCentered.makeText(thisActivity, "Signed in as: "+username+".").show();
-				UserSerializer.serialize(thisActivity, new User(username, password));
+				Serializer<User> serializer=new Serializer<User>();
+				try {
+					serializer.serialize(openFileOutput(getString(R.string.user_data_store), Context.MODE_PRIVATE), new User(username, password));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 				Intent i=new Intent(thisActivity, TabMenuActivity.class);
 				startActivity(i);
 				break;

@@ -28,7 +28,7 @@ public class TrackingOverviewActivity extends MapActivity {
 		mapView.setBuiltInZoomControls(true);
 		
 		mapOverlays = mapView.getOverlays();
-		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_marker);
+		Drawable drawable = this.getResources().getDrawable(R.drawable.ic_marker_home);
 		itemizedOverlay = new TrackingItemizedOverlay(drawable,this);
 		
 		addOverlayItem(new GeoPoint(19240000,-99120000), "gregor.panic", Calendar.getInstance());

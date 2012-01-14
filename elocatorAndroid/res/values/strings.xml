@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, ElocatorAndroidActivity!</string>
     <string name="app_name">Elocator</string>
+    <string name="user_data_store">user.data</string>
 
 </resources>

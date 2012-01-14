@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import feri.rvir.elocator.android.R;
@@ -49,5 +51,10 @@ public class TrackingItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 		dialog.setIcon(R.drawable.ic_dialog);
 		dialog.show();
 		return true;
+	}
+	
+	@Override
+	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+		super.draw(canvas, mapView, false);
 	}
 }

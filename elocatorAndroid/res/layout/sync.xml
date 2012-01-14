@@ -2,12 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
+    android:orientation="vertical" >
     <TextView
-        android:id="@+id/sync_textView"
+        android:id="@+id/sync_textViewSignedInAs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signed in as: gregor.panic@gmail.com" />
+        android:layout_marginTop="10dp"
+        android:text="Signed in as: "
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <Button
+        android:id="@+id/sync_button_signOut"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Sign out" />
 
 </LinearLayout>

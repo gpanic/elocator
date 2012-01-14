@@ -9,19 +9,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 
-import feri.rvir.elocator.rest.resource.user.User;
-
-import android.content.Context;
-
-public class UserSerializer {
+public class Serializer<T> {
 	
-	private static final String FILENAME="user.data";
-	
-	public static void serialize(Context context, User user) {
+	public void serialize(FileOutputStream fos, T object) {
 		try {
-			FileOutputStream fos = context.openFileOutput(FILENAME, Context.MODE_PRIVATE);
 			ObjectOutputStream oos=new ObjectOutputStream(fos);
-			oos.writeObject(user);
+			oos.writeObject(object);
 			oos.close();
 			fos.close();
 		} catch (FileNotFoundException e) {
@@ -31,12 +24,14 @@ public class UserSerializer {
 		}
 	}
 	
-	public static User unserialize(Context context) {
-		User user=null;
+	@SuppressWarnings("unchecked")
+	public T unserialize(FileInputStream fis) {
+		T object=null;
 		try {
-			FileInputStream fis=context.openFileInput(FILENAME);
 			ObjectInputStream ois=new ObjectInputStream(fis);
-			user=(User)ois.readObject();
+			object=(T)ois.readObject();
+			ois.close();
+			fis.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (StreamCorruptedException e) {
@@ -46,7 +41,7 @@ public class UserSerializer {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return user;
+		return object;
 	}
 
 }
