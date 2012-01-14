@@ -37,9 +37,8 @@ public class Location implements Serializable {
 	public Location() {
 	}
 
-	public Location(Key key, Key userKey, Date timestamp, double latitude,
+	public Location(Key userKey, Date timestamp, double latitude,
 			double longitude) {
-		this.key = key;
 		this.userKey = userKey;
 		this.timestamp = timestamp;
 		this.latitude = latitude;

@@ -60,4 +60,12 @@ public class User implements Serializable {
 		return username;
 	}
 
+	public void setKey(Key key) {
+		this.key = key;
+	}
+
+	public Key getKey() {
+		return key;
+	}
+
 }

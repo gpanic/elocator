@@ -2,6 +2,9 @@ package feri.rvir.elocator.dao;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import com.google.appengine.api.datastore.Key;
+
 import feri.rvir.elocator.dao.EMF;
 import feri.rvir.elocator.rest.resource.location.Location;
 import feri.rvir.elocator.rest.resource.user.User;
@@ -22,7 +25,13 @@ public class UserDao {
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
 		q.setParameter("username", username);
-		User u = (User) q.getSingleResult();
+		
+		User u = null;
+		try {
+			 u = (User) q.getSingleResult();
+		} catch (Exception e) {
+			System.out.println("No result for query with username " + username);
+		}
 		em.getTransaction().commit();
 		em.close();
 		return u;
@@ -38,11 +47,11 @@ public class UserDao {
 		return users;
 	}
 	
-	public void deleteUser(String username) {
+	public void deleteUser(Key key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
-		q.setParameter("username", username);
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.key = :key");
+		q.setParameter("key", key);
 		User u = (User) q.getSingleResult();
 		em.remove(u);
 		em.getTransaction().commit();

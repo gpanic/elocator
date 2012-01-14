@@ -28,19 +28,27 @@ public class ElocatorWebServlet extends HttpServlet {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Hello, world");
 
-		UserDao userDao = new UserDao();
-		User u = new User("username","password");
-		List<User> users = userDao.getAll();
-	    //userDao.addUser(u);
-		//LocationDao ldao = new LocationDao();
+		UserDao udao = new UserDao();
+		@SuppressWarnings("deprecation")
+		Location l = new Location(udao.getAll().get(0).getKey(),new Date(2012,1,14,15,51,6),435435.0,3454.0);
+		LocationDao ldao = new LocationDao();
+		//ldao.addLocation(l);
 		
-		//User u = userDao.getUser("username1");
-
-		// userDao.merge(u);
+		@SuppressWarnings("deprecation")
+		Date ovi = new Date(2012,1,14,15,51,6);
 		
-		for (User h:users) {
-			w.println(h.getUsername());
+		User p = udao.getUser("test");
+		
+		if (p == null) w.println("ni userja");
+		
+		List<Location> locations = ldao.getAll();
+		
+		for (Location h : locations) {
+			w.println(h.getTimestamp().toString());
 		}
-
+		
+		List<Location> j = ldao.getLocation(udao.getAll().get(0).getKey(), ovi);
+		w.println(j.size());
+		w.println("Našel sem objekt location na podlagi date");
 	}
 }

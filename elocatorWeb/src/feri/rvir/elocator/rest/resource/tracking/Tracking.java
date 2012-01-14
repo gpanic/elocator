@@ -28,6 +28,18 @@ public class Tracking implements Serializable {
 	private Key trackerKey;
 	private Key child;
 	
+	
+	
+	public Tracking(Key trackerKey, Key child) {
+		super();
+		this.trackerKey = trackerKey;
+		this.child = child;
+	}
+	
+	public Tracking() {
+		
+	}
+	
 	public Key getTrackerKey() {
 		return trackerKey;
 	}
@@ -39,6 +51,12 @@ public class Tracking implements Serializable {
 	}
 	public void setChild(Key child) {
 		this.child = child;
+	}
+	public void setKey(Key key) {
+		this.key = key;
+	}
+	public Key getKey() {
+		return key;
 	}
 	
 }

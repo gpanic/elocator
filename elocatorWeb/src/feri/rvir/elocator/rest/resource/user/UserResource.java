@@ -5,6 +5,8 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 
+import com.google.appengine.api.datastore.Key;
+
 public interface UserResource {
 	
 	@Get
@@ -14,7 +16,7 @@ public interface UserResource {
 	public void store(User user);
 	
 	@Delete
-	public void remove(int id);
+	public void remove(Key key);
 	
 	@Post
 	public UserErrorMessage accept(User user);

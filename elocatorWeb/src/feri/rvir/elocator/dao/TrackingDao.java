@@ -38,11 +38,23 @@ public class TrackingDao {
 		em.close();
 	}
 	
-	public void deleteTrackByUserId(Key key) {
+	public void deleteTrackByUserKey(Key key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.key = :key");
-		q.setParameter("key", key);
+		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.trackerKey = :trackerKey");
+		q.setParameter("trackerKey", key);
+		Tracking t = (Tracking) q.getSingleResult();
+		em.remove(t);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public void deleteUserFromBeingTracked(Key trackerKey, Key childKey) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.trackerKey = :trackerKey AND t.child = :child");
+		q.setParameter("trackerKey", trackerKey);
+		q.setParameter("child", childKey);
 		Tracking t = (Tracking) q.getSingleResult();
 		em.remove(t);
 		em.getTransaction().commit();

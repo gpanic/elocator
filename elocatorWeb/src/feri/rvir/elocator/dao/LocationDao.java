@@ -1,9 +1,11 @@
 package feri.rvir.elocator.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -39,6 +41,31 @@ public class LocationDao {
 		em.remove(l);
 		em.getTransaction().commit();
 		em.close();
+	}
+	
+	public void deleteLocationByTimestampAndUser(Key userKey, Date timestamp) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey AND l.timestamp = :timestamp");
+		q.setParameter("userKey", userKey);
+		q.setParameter("timestamp", timestamp);
+		Location l = (Location) q.getSingleResult();
+		em.remove(l);
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public List<Location> getLocation(Key userKey, Date timestamp) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey AND l.timestamp BETWEEN :start AND :end");
+		q.setParameter("userKey", userKey);
+		q.setParameter("start", timestamp, TemporalType.DATE);
+		q.setParameter("end", timestamp,TemporalType.DATE);
+		List<Location> locations = q.getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return locations;
 	}
 	
 }
