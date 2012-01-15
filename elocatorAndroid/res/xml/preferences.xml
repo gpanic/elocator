@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Account">
+        
+        <Preference
+            android:title="Sign out"
+            android:summary=""
+            android:key="prefSignOut" />
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:title="Synchronization">
+        
+        <CheckBoxPreference
+	        android:title="Track location"
+	        android:defaultValue="false"
+	        android:summary="Enable to start tracking your location on this device."
+	        android:key="prefTrack" />
+        
+        <Preference
+            android:title="Synchronize"
+            android:summary="Synchronize location data on this device with server database."
+            android:key="prefSync" />
+        
+    </PreferenceCategory>
+</PreferenceScreen>
