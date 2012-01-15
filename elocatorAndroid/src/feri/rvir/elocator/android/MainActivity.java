@@ -33,8 +33,6 @@ public class MainActivity extends Activity {
         
         thisActivity=this;
         
-        System.out.println(getString(R.string.user_data_store));
-        
         if(isSignedIn()) {
         	Intent i=new Intent(thisActivity, TabMenuActivity.class);
         	startActivity(i);
@@ -98,6 +96,7 @@ public class MainActivity extends Activity {
     	private final int UNAUTHORIZED=0;
     	private final int CONNECTION_FAILED=1;
     	private final int AUTHORIZED=2;
+    	
     	private String username;
     	private String password;
     	
@@ -105,7 +104,7 @@ public class MainActivity extends Activity {
     	protected  Integer doInBackground(String... params) {
     		username=params[0];
     		password=params[1];
-    		ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username);
+    		ClientResource cr=new ClientResource("http://192.168.1.100:8888/rest/users/"+username);
 	        cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
     		try {

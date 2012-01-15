@@ -57,4 +57,8 @@ public class TrackingItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		super.draw(canvas, mapView, false);
 	}
+	
+	public ArrayList<OverlayItem> getOverlayItems() {
+		return mOverlays;
+	}
 }
