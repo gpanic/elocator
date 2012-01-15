@@ -11,6 +11,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
+import feri.rvir.elocator.android.maps.MapControls;
 import feri.rvir.elocator.android.maps.TrackingItemizedOverlay;
 import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.rest.resource.user.User;
@@ -26,7 +27,7 @@ public class TrackingOverviewActivity extends MapActivity {
 	
 	private TrackingOverviewActivity thisActivity;
 	
-	MapView mapView;
+	private MapView mapView;
 	private List<Overlay> mapOverlays;
 	private TrackingItemizedOverlay itemizedOverlayHome;
 	private TrackingItemizedOverlay itemizedOverlayTracking;
@@ -114,29 +115,18 @@ public class TrackingOverviewActivity extends MapActivity {
 		if(itemizedOverlayHome!=null) {
 			overlayItems.addAll(itemizedOverlayHome.getOverlayItems());
 		}
-		
-		int maxLat=Integer.MIN_VALUE;
-		int minLat=Integer.MAX_VALUE;
-		int maxLon=Integer.MIN_VALUE;
-		int minLon=Integer.MAX_VALUE;
-		
-		for(OverlayItem o:overlayItems) {
-			int lat=o.getPoint().getLatitudeE6();
-			int lon=o.getPoint().getLongitudeE6();
-			
-			maxLat=Math.max(lat,maxLat);
-			minLat=Math.min(lat, minLat);
-			maxLon=Math.max(lon, maxLon);
-			minLon=Math.min(lon, minLon);
-		}
-		
-		mapView.getController().zoomToSpan(Math.abs(maxLat-minLat), Math.abs(maxLon-minLon));
-		mapView.getController().animateTo(new GeoPoint((maxLat+minLat)/2, (maxLon+minLon)/2));
+		MapControls.adjustZoom(overlayItems, mapView);
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		adjustZoom();
 	}
 
 }

@@ -29,9 +29,9 @@ public class TabMenuActivity extends TabActivity {
 				.setContent(new Intent(this,TrackingDetailsActivity.class));
 		mTabHost.addTab(spec);
 		
-		spec=mTabHost.newTabSpec("sync")
-				.setIndicator("Sync",getResources().getDrawable(R.drawable.ic_tab_sync))
-				.setContent(new Intent(this,SyncActivity.class));
+		spec=mTabHost.newTabSpec("preferences")
+				.setIndicator("Preferences",getResources().getDrawable(R.drawable.ic_tab_preferences))
+				.setContent(new Intent(this,PreferencesActivity.class));
 		mTabHost.addTab(spec);
 		
 	}
