@@ -1,8 +1,12 @@
 package feri.rvir.elocator.android;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import org.restlet.data.ChallengeScheme;
+import org.restlet.resource.ClientResource;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -12,6 +16,7 @@ import com.google.android.maps.OverlayItem;
 
 import feri.rvir.elocator.android.maps.LineItemizedOverlay;
 import feri.rvir.elocator.android.maps.MapControls;
+import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.rest.resource.user.User;
 
 import android.graphics.drawable.Drawable;
@@ -34,6 +39,18 @@ public class TrackingDetailsActivity extends MapActivity {
 		setContentView(R.layout.trackingdetails);
 		thisActivity=this;
 		
+		Serializer<User> serializer=new Serializer<User>();
+		User user=null;
+		try {
+			user = serializer.unserialize(openFileInput(getString(R.string.user_data_store)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users");
+        cr.setRequestEntityBuffering(true);
+        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, user.getPassword(), user.getPassword());
+        
 		ArrayList<User> users=new ArrayList<User>();
 		users.add(new User("gregor.panic", "asdf"));
 		users.add(new User("jernej.legvart", "asdf"));

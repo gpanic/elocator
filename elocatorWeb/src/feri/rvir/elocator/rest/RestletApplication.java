@@ -7,7 +7,6 @@ import org.restlet.Restlet;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.routing.Router;
 import org.restlet.security.ChallengeAuthenticator;
-import org.restlet.security.MapVerifier;
 import org.restlet.security.SecretVerifier;
 
 import feri.rvir.elocator.dao.UserDao;
@@ -25,15 +24,6 @@ public class RestletApplication extends Application {
 	public Restlet createInboundRoot() {
 		
 		ChallengeAuthenticator guard=new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "eLocator");
-		/*
-		MapVerifier verifier=new MapVerifier();
-		verifier.getLocalSecrets().put("registrator", Crypto.hash("ImkZh75dKLdo2MwEMByv", "SHA-1").toCharArray());
-		
-		UserDao udao=new UserDao();
-		List<User> users=(List<User>)udao.getAll();
-		for(User u:users) {
-			verifier.getLocalSecrets().put(u.getUsername(), u.getPassword().toCharArray());
-		}*/
 		DBVerifier verifier=new DBVerifier();
 		guard.setVerifier(verifier);
 		
