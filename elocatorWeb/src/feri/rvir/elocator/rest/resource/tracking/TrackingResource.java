@@ -1,5 +1,7 @@
 package feri.rvir.elocator.rest.resource.tracking;
 
+import java.util.List;
+
 import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
@@ -7,18 +9,12 @@ import org.restlet.resource.Put;
 public interface TrackingResource {
 	
 	@Get
-	public Tracking retrieve();
+	public List<Tracking> retrieve();
 	
 	@Put
 	public void store(Tracking tracking);
-	
-	@Put
-	public void store(String usernameTracker, String usernameBeingTracked);
-	
+
 	@Delete
-	public void remove(String username);
-	
-	@Delete
-	public void remove(String usernameTracker, String usernameBeingTracked);
+	void remove(String usernameTracker, String usernameBeingTracked);
 
 }

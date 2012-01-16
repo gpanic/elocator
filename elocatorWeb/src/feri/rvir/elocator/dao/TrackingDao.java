@@ -30,6 +30,17 @@ public class TrackingDao {
 		return trackings;
 	}
 	
+	public List<Tracking> getTrackingsByUser(Key userKey) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.trackerKey = :key");
+		q.setParameter("key", userKey);
+		List<Tracking> trackings = q.getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return trackings;
+	}
+	
 	public void updateTracking(Tracking t) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();

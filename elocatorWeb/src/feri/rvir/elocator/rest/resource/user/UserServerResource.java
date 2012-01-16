@@ -23,8 +23,12 @@ public class UserServerResource extends ServerResource implements UserResource {
 	}
 
 	@Override
-	public void remove(Key key) {
-		userdao.deleteUser(key);
+	public void remove(String username) {
+		User u = userdao.getUser(username);
+		
+		if (u != null) {
+			userdao.deleteUser(u.getKey());
+		}
 	}
 
 	@Override

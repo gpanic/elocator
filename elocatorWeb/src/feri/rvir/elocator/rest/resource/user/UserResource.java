@@ -16,7 +16,7 @@ public interface UserResource {
 	public void store(User user);
 	
 	@Delete
-	public void remove(Key key);
+	public void remove(String username);
 	
 	@Post
 	public UserErrorMessage accept(User user);
