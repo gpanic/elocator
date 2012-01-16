@@ -32,6 +32,12 @@ public class UserServerResource extends ServerResource implements UserResource {
 		String operation=(String)getRequest().getAttributes().get("operation");
 		if(operation.equals("register")) {
 			System.out.println("REGISTER");
+			User u = userdao.getUser(user.getUsername());
+			
+			if (u != null) {
+				return new UserErrorMessage(false, "Username already taken.");
+			}
+			userdao.addUser(user);
 			return new UserErrorMessage(true, "Registration successful.");
 		}
 		return null;

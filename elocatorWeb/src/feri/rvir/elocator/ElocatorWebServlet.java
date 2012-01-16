@@ -30,9 +30,14 @@ public class ElocatorWebServlet extends HttpServlet {
 
 		UserDao udao = new UserDao();
 		@SuppressWarnings("deprecation")
-		Location l = new Location(udao.getAll().get(0).getKey(),new Date(2012,1,14,15,51,6),435435.0,3454.0);
+		Calendar cal = Calendar.getInstance();
+		Date time = cal.getTime();
+		Location l = new Location(udao.getAll().get(0).getKey(),time,435435.0,3454.0);
 		LocationDao ldao = new LocationDao();
-		//ldao.addLocation(l);
+		ldao.addLocation(l);
+		
+		List<Location> z = ldao.getLocation(udao.getAll().get(0).getKey(),time);
+		w.println("Locations " + z.size());
 		
 		@SuppressWarnings("deprecation")
 		Date ovi = new Date(2012,1,14,15,51,6);
