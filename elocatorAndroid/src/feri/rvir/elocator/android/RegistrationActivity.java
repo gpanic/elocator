@@ -1,7 +1,9 @@
 package feri.rvir.elocator.android;
 
+import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.ClientResource;
 
+import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.rest.resource.user.User;
 import feri.rvir.elocator.rest.resource.user.UserErrorMessage;
@@ -43,8 +45,9 @@ public class RegistrationActivity extends Activity {
 						try {
 							ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/register");
 							cr.setRequestEntityBuffering(true);
+							cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, "registrator", Crypto.hash(getString(R.string.registrator_password), "SHA-1"));
 							UserResource resource=cr.wrap(UserResource.class);
-							UserErrorMessage response=resource.accept(new User(username,password));
+							UserErrorMessage response=resource.accept(new User(username,Crypto.hash(password, "SHA-1")));
 							if(response.isOk()) {
 								ToastCentered.makeText(thisActivity, response.getMessage()).show();
 								Intent i=new Intent(v.getContext(), MainActivity.class);

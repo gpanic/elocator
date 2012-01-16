@@ -48,6 +48,7 @@ public class MainActivity extends Activity {
 					
 					String username=usernameEditText.getText().toString();
 					String password=Crypto.hash(passwordEditText.getText().toString(), "SHA-1");
+					System.out.println(password);
 					
 					if(!(username.equals("")||password.equals(Crypto.hash("", "SHA-1")))) {
 						new SignInTask().execute(username, password);

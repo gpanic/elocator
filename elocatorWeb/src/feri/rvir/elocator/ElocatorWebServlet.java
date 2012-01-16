@@ -23,7 +23,11 @@ import feri.rvir.elocator.rest.resource.user.User;
 public class ElocatorWebServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
-
+		UserDao udao=new UserDao();
+		User u=udao.getUser("gregor.panic");
+		System.out.println(u.getUsername());
+		System.out.println(u.getPassword());
+/*
 		PrintWriter w = resp.getWriter();
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Hello, world");
@@ -54,6 +58,6 @@ public class ElocatorWebServlet extends HttpServlet {
 		
 		List<Location> j = ldao.getLocation(udao.getAll().get(0).getKey(), ovi);
 		w.println(j.size());
-		w.println("Našel sem objekt location na podlagi date");
+		w.println("Naï¿½el sem objekt location na podlagi date");*/
 	}
 }

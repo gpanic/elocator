@@ -1,15 +1,4 @@
-<<<<<<< HEAD
-<!-- Indices written at Mon, 16 Jan 2012 09:25:13 UTC -->
-=======
-<!-- Indices written at Mon, 16 Jan 2012 09:24:44 UTC -->
->>>>>>> bab9aba5202052f05f8aa3113dd9d8127c95067f
+<!-- Indices written at Mon, 16 Jan 2012 10:47:44 UTC -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 9 times in query history -->
-    <datastore-index kind="Location" ancestor="false" source="auto">
-        <property name="userKey" direction="asc"/>
-        <property name="timestamp" direction="asc"/>
-    </datastore-index>
-
-</datastore-indexes>
