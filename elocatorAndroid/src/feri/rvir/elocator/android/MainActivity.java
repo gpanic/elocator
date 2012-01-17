@@ -2,14 +2,18 @@ package feri.rvir.elocator.android;
 
 import java.io.FileNotFoundException;
 
+import org.restlet.data.ChallengeScheme;
+import org.restlet.resource.ClientResource;
+
 import feri.rvir.elocator.android.util.Crypto;
-import feri.rvir.elocator.android.util.SignInTask;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.rest.resource.user.User;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +51,7 @@ public class MainActivity extends Activity {
 					System.out.println(password);
 					
 					if(!(username.equals("")||password.equals(Crypto.hash("", "SHA-1")))) {
-						new SignInTask(thisActivity).execute(username, password);
+						new SignInTask().execute(username,password);
 					} else {
 						ToastCentered.makeText(thisActivity, "Fill out all the fields.").show();
 					}
@@ -86,6 +90,60 @@ public class MainActivity extends Activity {
     	i.addCategory(Intent.CATEGORY_HOME);
     	i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     	startActivity(i);
+    }
+    
+    private class SignInTask extends AsyncTask<String, Void, Integer> {
+    	
+    	private final int UNAUTHORIZED=0;
+    	private final int CONNECTION_FAILED=1;
+    	private final int AUTHORIZED=2;
+    	
+    	private String username;
+    	private String password;
+
+    	@Override
+    	protected  Integer doInBackground(String... params) {
+    		username=params[0];
+    		password=params[1];
+    		ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username);
+            cr.setRequestEntityBuffering(true);
+            cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
+    		try {
+            	cr.get();
+            	return AUTHORIZED;
+    		} catch (RuntimeException e) {
+    			if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {
+    				return UNAUTHORIZED;
+    			} else if(!cr.getStatus().isSuccess()) {
+    				return CONNECTION_FAILED;
+    			}
+    		}
+    		return CONNECTION_FAILED;
+    	}
+    	
+    	@Override
+    	protected void onPostExecute(Integer result) {
+    		
+    		switch (result) {
+    		case UNAUTHORIZED:
+    			ToastCentered.makeText(thisActivity, "Credentials do not match.").show();
+    			break;
+    		case AUTHORIZED:
+    			ToastCentered.makeText(thisActivity, "Signed in as: "+username+".").show();
+    			Serializer<User> serializer=new Serializer<User>();
+    			try {
+    				serializer.serialize(thisActivity.openFileOutput(thisActivity.getString(R.string.user_data_store), Context.MODE_PRIVATE), new User(username, password));
+    			} catch (FileNotFoundException e) {
+    				e.printStackTrace();
+    			}
+    			Intent i=new Intent(thisActivity, TabMenuActivity.class);
+    			thisActivity.startActivity(i);
+    			break;
+    		default:
+    			ToastCentered.makeText(thisActivity, "Connection to server failed.").show();
+    			break;
+    		}
+    	}
     }
     
 }
