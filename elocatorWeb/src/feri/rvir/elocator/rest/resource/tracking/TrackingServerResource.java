@@ -44,4 +44,15 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 		tdao.deleteUserFromBeingTracked(tracker.getKey(),child.getKey());
 	}
 
+	@Override
+	public void accept(String tracker, String child) {
+		User uTracker = udao.getUser(tracker);
+		User uChild = udao.getUser(child);
+		
+		if (uTracker == null || uChild == null) return;
+		
+		Tracking t = new Tracking(uTracker.getKey(),uChild.getKey());
+		tdao.addTracking(t);
+	}
+
 }
