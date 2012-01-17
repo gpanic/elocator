@@ -43,4 +43,18 @@ public class LocationServerResource extends ServerResource implements LocationRe
 		locdao.deleteLocationByTimestampAndUser(u.getKey(),timestamp);
 	}
 
+	@Override
+	public List<Location> accept(String username) {
+		// TODO Auto-generated method stub
+		User u = userdao.getUser(username);
+		if (u == null) return null;
+		Calendar now = Calendar.getInstance();
+		Date nowd = now.getTime();
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, -24);
+		Date d = cal.getTime();
+		List<Location> locations = locdao.getLocations(u.getKey(), d, nowd);  
+		return locations;
+	}
+
 }

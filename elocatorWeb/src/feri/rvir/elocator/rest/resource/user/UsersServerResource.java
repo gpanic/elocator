@@ -38,7 +38,7 @@ public class UsersServerResource extends ServerResource implements
 			List<Tracking> trackings=tdao.getTrackingsByUser(u.getKey());
 			List<User> users=new ArrayList<User>();
 			for(Tracking t:trackings) {
-				Key key=t.getChild();
+				Long key=t.getChild();
 				users.add(userDao.getUser(key));
 			}
 			return users;

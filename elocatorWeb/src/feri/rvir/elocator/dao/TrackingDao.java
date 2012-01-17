@@ -30,7 +30,7 @@ public class TrackingDao {
 		return trackings;
 	}
 	
-	public List<Tracking> getTrackingsByUser(Key userKey) {
+	public List<Tracking> getTrackingsByUser(Long userKey) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.trackerKey = :key");
@@ -49,7 +49,7 @@ public class TrackingDao {
 		em.close();
 	}
 	
-	public void deleteTrackByUserKey(Key key) {
+	public void deleteTrackByUserKey(Long key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.trackerKey = :trackerKey");
@@ -60,7 +60,7 @@ public class TrackingDao {
 		em.close();
 	}
 	
-	public void deleteUserFromBeingTracked(Key trackerKey, Key childKey) {
+	public void deleteUserFromBeingTracked(Long trackerKey, Long childKey) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.trackerKey = :trackerKey AND t.child = :child");

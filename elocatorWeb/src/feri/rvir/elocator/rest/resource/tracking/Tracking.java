@@ -24,13 +24,13 @@ public class Tracking implements Serializable {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Key key;
-	private Key trackerKey;
-	private Key child;
+    private Long key;
+	private Long trackerKey;
+	private Long child;
 	
 	
 	
-	public Tracking(Key trackerKey, Key child) {
+	public Tracking(Long trackerKey, Long child) {
 		super();
 		this.trackerKey = trackerKey;
 		this.child = child;
@@ -40,22 +40,22 @@ public class Tracking implements Serializable {
 		
 	}
 	
-	public Key getTrackerKey() {
+	public Long getTrackerKey() {
 		return trackerKey;
 	}
-	public void setTrackerKey(Key trackerKey) {
+	public void setTrackerKey(Long trackerKey) {
 		this.trackerKey = trackerKey;
 	}
-	public Key getChild() {
+	public Long getChild() {
 		return child;
 	}
-	public void setChild(Key child) {
+	public void setChild(Long child) {
 		this.child = child;
 	}
-	public void setKey(Key key) {
+	public void setKey(Long key) {
 		this.key = key;
 	}
-	public Key getKey() {
+	public Long getKey() {
 		return key;
 	}
 	

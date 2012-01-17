@@ -32,7 +32,7 @@ public class LocationDao {
 		return locations;
 	}
 	
-	public void deleteLocationByKey(Key key) {
+	public void deleteLocationByKey(Long key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT l FROM Location l WHERE l.key = :key");
@@ -43,7 +43,7 @@ public class LocationDao {
 		em.close();
 	}
 	
-	public void deleteLocationByTimestampAndUser(Key userKey, Date timestamp) {
+	public void deleteLocationByTimestampAndUser(Long userKey, Date timestamp) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey AND l.timestamp = :timestamp");
@@ -55,7 +55,7 @@ public class LocationDao {
 		em.close();
 	}
 	
-	public List<Location> getLocation(Key userKey, Date timestamp) {
+	public List<Location> getLocation(Long userKey, Date timestamp) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey AND l.timestamp BETWEEN :start AND :end");
@@ -63,6 +63,25 @@ public class LocationDao {
 		q.setParameter("start", timestamp, TemporalType.DATE);
 		q.setParameter("end", timestamp,TemporalType.DATE);
 		List<Location> locations = q.getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return locations;
+	}
+	
+	public List<Location> getLocations(Long userKey, Date start, Date end) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey AND l.timestamp BETWEEN :start AND :end");
+		q.setParameter("userKey", userKey);
+		q.setParameter("start", start, TemporalType.DATE);
+		q.setParameter("end", end,TemporalType.DATE);
+		List<Location> locations = null;
+		
+		try {
+			locations = q.getResultList();
+		} catch (Exception e) {
+			
+		}
 		em.getTransaction().commit();
 		em.close();
 		return locations;

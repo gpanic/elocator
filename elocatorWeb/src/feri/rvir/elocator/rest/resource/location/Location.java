@@ -27,9 +27,9 @@ public class Location implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key key;
+	private Long key;
 	
-	private Key userKey;
+	private Long userKey;
 	private Date timestamp;
 	private double latitude;
 	private double longitude;
@@ -37,7 +37,7 @@ public class Location implements Serializable {
 	public Location() {
 	}
 
-	public Location(Key userKey, Date timestamp, double latitude,
+	public Location(Long userKey, Date timestamp, double latitude,
 			double longitude) {
 		this.userKey = userKey;
 		this.timestamp = timestamp;
@@ -45,11 +45,11 @@ public class Location implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public Key getUserKey() {
+	public Long getUserKey() {
 		return userKey;
 	}
 
-	public void setUserKey(Key userKey) {
+	public void setUserKey(Long userKey) {
 		this.userKey = userKey;
 	}
 	
@@ -77,11 +77,11 @@ public class Location implements Serializable {
 		this.longitude = longitude;
 	}
 
-	public Key getKey() {
+	public Long getKey() {
 		return key;
 	}
 
-	public void setKey(Key key) {
+	public void setKey(Long key) {
 		this.key = key;
 		
 	}

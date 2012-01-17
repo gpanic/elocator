@@ -23,10 +23,29 @@ import feri.rvir.elocator.rest.resource.user.User;
 public class ElocatorWebServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
+		
 		UserDao udao=new UserDao();
-		User u=udao.getUser("gregor.panic");
+		User u = new User("keks","keks");
+		//udao.addUser(u);
+		User h = udao.getUser("keks");
+		
+		//System.out.println(h.getKey());
+		System.out.println("size " + udao.getAll().size());
+			
+
+		/*
+		
 		System.out.println(u.getUsername());
 		System.out.println(u.getPassword());
+		
+		Tracking t = new Tracking();
+		TrackingDao tdao = new TrackingDao();
+		tdao.addTracking(t);
+		System.out.print("tracking addded");
+		
+
+		*/
+		
 /*
 		PrintWriter w = resp.getWriter();
 		resp.setContentType("text/plain");

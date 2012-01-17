@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
 					
 					if(!(username.equals("")||password.equals(Crypto.hash("", "SHA-1")))) {
 						new SignInTask().execute(username,password);
+						System.out.println("hahaha");
 					} else {
 						ToastCentered.makeText(thisActivity, "Fill out all the fields.").show();
 					}

@@ -18,6 +18,7 @@ public class UserDao {
 		em.persist(u);
 		em.getTransaction().commit();
 		em.close();
+		System.out.println("User added");
 	}
 
 	public User getUser(String username) {
@@ -31,7 +32,7 @@ public class UserDao {
 		try {
 			u = (User) q.getSingleResult();
 		} catch (Exception e) {
-			System.out.println("No result for query with username " + username);
+			System.out.println(e.toString());
 		}
 		em.getTransaction().commit();
 		em.close();
@@ -39,7 +40,7 @@ public class UserDao {
 	}
 
 	
-	public User getUser(Key key) {
+	public User getUser(Long key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT u FROM User u WHERE u.key = :key");
@@ -68,7 +69,7 @@ public class UserDao {
 		return users;
 	}
 
-	public void deleteUser(Key key) {
+	public void deleteUser(Long key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT u FROM User u WHERE u.key = :key");

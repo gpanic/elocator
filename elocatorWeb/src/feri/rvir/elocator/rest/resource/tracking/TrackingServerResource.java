@@ -50,6 +50,14 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 		User uChild = udao.getUser(child);
 		
 		if (uTracker == null || uChild == null) return;
+		List<Tracking> userTrackings = tdao.getTrackingsByUser(uTracker.getKey());
+		
+		for (Tracking g : userTrackings) {
+			if (g.getChild().equals(uChild.getKey())) {
+				System.out.println("Child tega parenta že obstaja");
+				return;
+			}
+		}
 		
 		Tracking t = new Tracking(uTracker.getKey(),uChild.getKey());
 		tdao.addTracking(t);

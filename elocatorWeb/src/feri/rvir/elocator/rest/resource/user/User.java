@@ -21,7 +21,7 @@ public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key key;
+	private Long key;
 	private String username;
 	private String password;
 
@@ -60,11 +60,11 @@ public class User implements Serializable {
 		return username;
 	}
 
-	public void setKey(Key key) {
+	public void setKey(Long key) {
 		this.key = key;
 	}
 
-	public Key getKey() {
+	public Long getKey() {
 		return key;
 	}
 
