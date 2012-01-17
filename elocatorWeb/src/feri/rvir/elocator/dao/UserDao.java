@@ -37,6 +37,23 @@ public class UserDao {
 		return u;
 	}
 	
+	public User getUser(Key key) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.key = :key");
+		q.setParameter("key", key);
+		
+		User u = null;
+		try {
+			 u = (User) q.getSingleResult();
+		} catch (Exception e) {
+			System.out.println("No result for query with key " + key.getId());
+		}
+		em.getTransaction().commit();
+		em.close();
+		return u;
+	}
+	
 	public List<User> getAll() {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
