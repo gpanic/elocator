@@ -38,6 +38,7 @@ public class UserDao {
 		return u;
 	}
 
+	
 	public User getUser(Key key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
@@ -56,6 +57,7 @@ public class UserDao {
 		return u;
 	}
 
+	
 	public List<User> getAll() {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();

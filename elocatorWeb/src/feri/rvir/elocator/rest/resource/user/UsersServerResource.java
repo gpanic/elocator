@@ -15,8 +15,9 @@ public class UsersServerResource extends ServerResource implements
 		UsersResource {
 
 	UserDao userDao = new UserDao();
+
 	TrackingDao tdao = new TrackingDao();
-	
+
 	@Override
 	public List<User> retrieve() {
 		System.out.println("RETRIEVE UsersServerResource");
@@ -27,24 +28,23 @@ public class UsersServerResource extends ServerResource implements
 	@Override
 	public void remove() {
 		System.out.println("REMOVE UsersServerResource");
-		// TODO iz baze izbrise vse uporabnike
-
 	}
 
 	@Override
-	public List<User> accept(User u) {
-		Key trackerKey = u.getKey();
-		List<Tracking> userTrackings = tdao.getTrackingsByUser(trackerKey);
-		
-		if (userTrackings == null) return null;
-		
-		List<User> childs = new ArrayList<User>();
-		User temp = null;
-		for (Tracking t:userTrackings) {
-			temp = userDao.getUser(t.getChild());
-			childs.add(temp);
+	public List<User> accept(String username) {
+		System.out.println("ACCEPT");
+		User u=userDao.getUser(username);
+		if(u!=null) {
+			List<Tracking> trackings=tdao.getTrackingsByUser(u.getKey());
+			List<User> users=new ArrayList<User>();
+			for(Tracking t:trackings) {
+				Key key=t.getChild();
+				users.add(userDao.getUser(key));
+			}
+			return users;
+		} else {
+			return null;
 		}
-		return childs;
 	}
 
 }
