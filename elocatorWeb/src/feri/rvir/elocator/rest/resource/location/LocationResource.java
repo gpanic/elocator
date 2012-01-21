@@ -1,8 +1,7 @@
 package feri.rvir.elocator.rest.resource.location;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
@@ -21,6 +20,6 @@ public interface LocationResource {
 	public void remove(String username, Date timestamp);
 	
 	@Post
-	public List<Location> accept(String username);
+	public ArrayList<Location> accept(String username);
 
 }

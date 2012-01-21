@@ -9,7 +9,8 @@ import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.rest.resource.user.User;
-
+import feri.rvir.elocator.rest.resource.user.UserResource;
+import feri.rvir.elocator.rest.resource.user.UsersResource;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,12 @@ public class MainActivity extends Activity {
         
         thisActivity=this;
         
+        ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users");
+        cr.setRequestEntityBuffering(true);
+        UsersResource r=cr.wrap(UsersResource.class);
+        System.out.println(r.accept("test"));
+        
+        /*
         if(isSignedIn()) {
         	Intent i=new Intent(thisActivity, TabMenuActivity.class);
         	startActivity(i);
@@ -69,7 +76,7 @@ public class MainActivity extends Activity {
 				}
 			});
 	        
-        }
+        }*/
     }
     
     private boolean isSignedIn() {
@@ -107,7 +114,7 @@ public class MainActivity extends Activity {
     		username=params[0];
     		password=params[1];
     		ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username);
-            cr.setRequestEntityBuffering(true);
+            //cr.setRequestEntityBuffering(true);
             cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
     		try {
             	cr.get();

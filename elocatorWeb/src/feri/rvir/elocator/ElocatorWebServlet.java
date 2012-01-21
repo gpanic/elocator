@@ -18,21 +18,26 @@ import feri.rvir.elocator.dao.UserDao;
 import feri.rvir.elocator.rest.resource.location.Location;
 import feri.rvir.elocator.rest.resource.tracking.Tracking;
 import feri.rvir.elocator.rest.resource.user.User;
+import feri.rvir.elocator.util.Crypto;
 
 @SuppressWarnings("serial")
 public class ElocatorWebServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
-		UserDao udao=new UserDao();
-		User u = new User("keks","keks");
-		//udao.addUser(u);
-		User h = udao.getUser("keks");
 		
-		//System.out.println(h.getKey());
-		System.out.println("size " + udao.getAll().size());
-			
+		/*
+		UserDao udao=new UserDao();
+		udao.addUser(new User("childOfTest",Crypto.hash("test", "SHA-1")));
+		
+		
+		User parent=udao.getUser("test");
+		User child=udao.getUser("childOfTest");
+		TrackingDao tdao=new TrackingDao();
+		tdao.addTracking(new Tracking(parent.getKey(), child.getKey()));
 
+
+*/
 		/*
 		
 		System.out.println(u.getUsername());

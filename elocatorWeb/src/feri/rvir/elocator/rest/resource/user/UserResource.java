@@ -5,8 +5,6 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 
-import com.google.appengine.api.datastore.Key;
-
 public interface UserResource {
 	
 	@Get

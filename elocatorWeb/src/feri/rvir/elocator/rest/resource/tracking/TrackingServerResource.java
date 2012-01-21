@@ -1,5 +1,6 @@
 package feri.rvir.elocator.rest.resource.tracking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.restlet.resource.ServerResource;
@@ -15,16 +16,23 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 	
 	
 	@Override
-	public List<Tracking> retrieve() {
+	public ArrayList<Tracking> retrieve() {
 		System.out.println("RETRIEVE TrackingServerResource");
 		String username=(String)getRequest().getAttributes().get("username");
 		System.out.println(username);
 
 		User u = udao.getUser(username);
 		
-		if (u == null) return null;
-		List<Tracking> trackings = tdao.getTrackingsByUser(u.getKey());
-		return trackings;
+		if (u == null) {
+			return null;
+		} else {
+			List<Tracking> trackings = tdao.getTrackingsByUser(u.getKey());
+			ArrayList<Tracking> trackings2=new ArrayList<Tracking>();
+			for(Tracking t:trackings) {
+				trackings2.add(t);
+			}
+			return trackings2;
+		}
 	}
 
 	@Override
@@ -54,7 +62,7 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 		
 		for (Tracking g : userTrackings) {
 			if (g.getChild().equals(uChild.getKey())) {
-				System.out.println("Child tega parenta že obstaja");
+				System.out.println("Child tega parenta ï¿½e obstaja");
 				return;
 			}
 		}

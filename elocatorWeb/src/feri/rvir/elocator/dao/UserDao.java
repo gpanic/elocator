@@ -4,21 +4,22 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.google.appengine.api.datastore.Key;
-
 import feri.rvir.elocator.dao.EMF;
-import feri.rvir.elocator.rest.resource.location.Location;
 import feri.rvir.elocator.rest.resource.user.User;
 
 public class UserDao {
 
 	public void addUser(User u) {
-		EntityManager em = EMF.getInstance().createEntityManager();
-		em.getTransaction().begin();
-		em.persist(u);
-		em.getTransaction().commit();
-		em.close();
-		System.out.println("User added");
+		if(getUser(u.getUsername())==null) {
+			EntityManager em = EMF.getInstance().createEntityManager();
+			em.getTransaction().begin();
+			em.persist(u);
+			em.getTransaction().commit();
+			em.close();
+			System.out.println("User added");
+		} else {
+			System.out.println("User already exists");
+		}
 	}
 
 	public User getUser(String username) {
@@ -51,7 +52,7 @@ public class UserDao {
 			u = (User) q.getSingleResult();
 		} catch (Exception e) {
 			System.out
-					.println("No result for query with key " + key.toString());
+					.println("No result for query with key " + key);
 		}
 		em.getTransaction().commit();
 		em.close();
@@ -63,7 +64,10 @@ public class UserDao {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT u FROM User u");
+		
+		@SuppressWarnings("unchecked")
 		List<User> users = q.getResultList();
+		
 		em.getTransaction().commit();
 		em.close();
 		return users;
@@ -81,11 +85,9 @@ public class UserDao {
 	}
 
 	public void merge(User u) {
-		// TODO Auto-generated method stub
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
-		Query q = em
-				.createQuery("SELECT u FROM User u WHERE u.username = :username");
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
 		q.setParameter("username", u.getUsername());
 		User p = (User) q.getSingleResult();
 		em.merge(p);

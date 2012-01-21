@@ -73,7 +73,7 @@ public class RegistrationActivity extends Activity {
 			username=params[0];
 			password=params[1];
 			ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/register");
-	        cr.setRequestEntityBuffering(true);
+	        //cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
 			try {
 				UserResource resource=cr.wrap(UserResource.class);

@@ -2,19 +2,22 @@ package feri.rvir.elocator.rest.resource.user;
 
 import org.restlet.resource.ServerResource;
 
-import com.google.appengine.api.datastore.Key;
-
 import feri.rvir.elocator.dao.UserDao;
 
 public class UserServerResource extends ServerResource implements UserResource {
 	
-	UserDao userdao = new UserDao();
+	private UserDao userdao = new UserDao();
 	
 	@Override
 	public User retrieve() {
+		System.out.println("RETRIEVE");
 		String username=(String)getRequest().getAttributes().get("username");
 		User u = userdao.getUser(username);
-		return u;
+		User u2=null;
+		if(u!=null) {
+			u2=new User(u.getKey(), u.getUsername(),u.getPassword());
+		}
+		return u2; //WTF???
 	}
 
 	@Override

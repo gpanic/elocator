@@ -7,11 +7,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
-import com.google.appengine.api.datastore.Key;
-
 import feri.rvir.elocator.dao.EMF;
 import feri.rvir.elocator.rest.resource.location.Location;
-import feri.rvir.elocator.rest.resource.user.User;
 public class LocationDao {
 
 	public void addLocation(Location l) {
@@ -26,7 +23,10 @@ public class LocationDao {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT l FROM Location l");
+		
+		@SuppressWarnings("unchecked")
 		List<Location> locations = q.getResultList();
+		
 		em.getTransaction().commit();
 		em.close();
 		return locations;
@@ -62,12 +62,16 @@ public class LocationDao {
 		q.setParameter("userKey", userKey);
 		q.setParameter("start", timestamp, TemporalType.DATE);
 		q.setParameter("end", timestamp,TemporalType.DATE);
+		
+		@SuppressWarnings("unchecked")
 		List<Location> locations = q.getResultList();
+		
 		em.getTransaction().commit();
 		em.close();
 		return locations;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Location> getLocations(Long userKey, Date start, Date end) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
@@ -78,6 +82,7 @@ public class LocationDao {
 		List<Location> locations = null;
 		
 		try {
+			
 			locations = q.getResultList();
 		} catch (Exception e) {
 			

@@ -54,7 +54,7 @@ public class TrackingDetailsActivity extends MapActivity {
 		}
 		
 		ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users");
-        cr.setRequestEntityBuffering(true);
+        //cr.setRequestEntityBuffering(true);
         cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, user.getPassword(), user.getPassword());
         
 		ArrayList<User> users=new ArrayList<User>();
@@ -115,7 +115,7 @@ public class TrackingDetailsActivity extends MapActivity {
 			username=params[0];
 			password=params[1];
 			ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/tracking");
-	        cr.setRequestEntityBuffering(true);
+	        //cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
 			try {
 				UserResource resource=cr.wrap(UserResource.class);

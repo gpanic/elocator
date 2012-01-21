@@ -1,14 +1,12 @@
 package feri.rvir.elocator.dao;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.google.appengine.api.datastore.Key;
-
 import feri.rvir.elocator.dao.EMF;
 import feri.rvir.elocator.rest.resource.tracking.*;
-import feri.rvir.elocator.rest.resource.user.User;
 
 public class TrackingDao {
 
@@ -24,7 +22,10 @@ public class TrackingDao {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT t FROM Tracking t");
+		
+		@SuppressWarnings("unchecked")
 		List<Tracking> trackings = q.getResultList();
+		
 		em.getTransaction().commit();
 		em.close();
 		return trackings;
@@ -35,7 +36,10 @@ public class TrackingDao {
 		em.getTransaction().begin();
 		Query q = em.createQuery("SELECT t FROM Tracking t WHERE t.trackerKey = :key");
 		q.setParameter("key", userKey);
+		
+		@SuppressWarnings("unchecked")
 		List<Tracking> trackings = q.getResultList();
+		
 		em.getTransaction().commit();
 		em.close();
 		return trackings;

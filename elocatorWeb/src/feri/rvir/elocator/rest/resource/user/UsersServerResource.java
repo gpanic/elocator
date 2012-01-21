@@ -5,24 +5,25 @@ import java.util.List;
 
 import org.restlet.resource.ServerResource;
 
-import com.google.appengine.api.datastore.Key;
-
 import feri.rvir.elocator.dao.TrackingDao;
 import feri.rvir.elocator.dao.UserDao;
 import feri.rvir.elocator.rest.resource.tracking.Tracking;
 
-public class UsersServerResource extends ServerResource implements
-		UsersResource {
+public class UsersServerResource extends ServerResource implements UsersResource {
 
 	UserDao userDao = new UserDao();
 
 	TrackingDao tdao = new TrackingDao();
 
 	@Override
-	public List<User> retrieve() {
+	public ArrayList<User> retrieve() {
 		System.out.println("RETRIEVE UsersServerResource");
 		List<User> users = userDao.getAll();
-		return users;
+		ArrayList<User> users2=new ArrayList<User>();
+		for(User u:users) {
+			users2.add(new User(u.getKey(), u.getUsername(), u.getPassword()));
+		}
+		return users2;
 	}
 
 	@Override
@@ -31,19 +32,20 @@ public class UsersServerResource extends ServerResource implements
 	}
 
 	@Override
-	public List<User> accept(String username) {
+	public ArrayList<User> accept(String username) {
 		System.out.println("ACCEPT");
 		User u=userDao.getUser(username);
 		if(u!=null) {
 			List<Tracking> trackings=tdao.getTrackingsByUser(u.getKey());
-			List<User> users=new ArrayList<User>();
+			ArrayList<User> users=new ArrayList<User>();
 			for(Tracking t:trackings) {
 				Long key=t.getChild();
-				users.add(userDao.getUser(key));
+				User child=userDao.getUser(key);
+				users.add(new User(child.getKey(), child.getUsername(), child.getPassword()));
 			}
 			return users;
 		} else {
-			return null;
+			return new ArrayList<User>();
 		}
 	}
 

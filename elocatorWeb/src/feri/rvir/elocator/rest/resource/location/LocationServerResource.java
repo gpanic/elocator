@@ -1,9 +1,8 @@
 package feri.rvir.elocator.rest.resource.location;
 
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.restlet.resource.ServerResource;
@@ -44,8 +43,7 @@ public class LocationServerResource extends ServerResource implements LocationRe
 	}
 
 	@Override
-	public List<Location> accept(String username) {
-		// TODO Auto-generated method stub
+	public ArrayList<Location> accept(String username) {
 		User u = userdao.getUser(username);
 		if (u == null) return null;
 		Calendar now = Calendar.getInstance();
@@ -54,7 +52,11 @@ public class LocationServerResource extends ServerResource implements LocationRe
 		cal.add(Calendar.HOUR, -24);
 		Date d = cal.getTime();
 		List<Location> locations = locdao.getLocations(u.getKey(), d, nowd);  
-		return locations;
+		ArrayList<Location> locations2=new ArrayList<Location>();
+		for(Location l:locations) {
+			locations2.add(l);
+		}
+		return locations2;
 	}
 
 }
