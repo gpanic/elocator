@@ -6,6 +6,7 @@ import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.ClientResource;
 
 import feri.rvir.elocator.android.util.AsyncTaskResult;
+import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.rest.resource.user.User;
@@ -70,8 +71,8 @@ public class RegistrationActivity extends Activity {
 			username=params[0];
 			password=params[1];
 			ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/register");
-	        //cr.setRequestEntityBuffering(true);
-	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
+	        cr.setRequestEntityBuffering(true);
+	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, "registrator", Crypto.hash(getString(R.string.registrator_password), "SHA-1"));
 			try {
 				UserResource resource=cr.wrap(UserResource.class);
 				resource.accept(new User(username, password));

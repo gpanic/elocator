@@ -40,6 +40,8 @@ public class TrackingDetailsActivity extends MapActivity {
 	private ArrayList<User> children;
 	private ArrayList<String> childrenString;
 	
+	private User user=null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,7 +49,6 @@ public class TrackingDetailsActivity extends MapActivity {
 		thisActivity=this;
 		
 		Serializer<User> serializer=new Serializer<User>();
-		User user=null;
 		try {
 			user = serializer.unserialize(openFileInput(getString(R.string.user_data_store)));
 		} catch (FileNotFoundException e) {
@@ -88,14 +89,26 @@ public class TrackingDetailsActivity extends MapActivity {
 	private void populateSpinner() {
 		populateChildrenStringArray();
 		Spinner spinnerUsers=(Spinner)findViewById(R.id.details_spinnerUsers);
-		ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(thisActivity, android.R.layout.simple_spinner_item, childrenString);
-		spinnerUsers.setAdapter(arrayAdapter);
+		if(children!=null) {
+			if(!children.isEmpty()){
+				ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(thisActivity, android.R.layout.simple_spinner_item, childrenString);
+				spinnerUsers.setAdapter(arrayAdapter);
+				spinnerUsers.setEnabled(true);
+			} else {
+				spinnerUsers.setEnabled(false);
+			}
+		} else {
+			spinnerUsers.setEnabled(false);
+		}
+
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		MapControls.adjustZoom(itemizedOverlay.getOverlayItems(), mapView);
+		new GetTrackingTask().execute(user.getUsername(), user.getPassword());
+		populateSpinner();
 	}
 	
 	

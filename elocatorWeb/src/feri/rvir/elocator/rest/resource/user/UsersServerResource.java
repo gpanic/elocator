@@ -33,7 +33,7 @@ public class UsersServerResource extends ServerResource implements UsersResource
 
 	@Override
 	public ArrayList<User> accept(String username) {
-		System.out.println("ACCEPT");
+		System.out.println("ACCEPT UsersServerResource");
 		User u=userDao.getUser(username);
 		if(u!=null) {
 			List<Tracking> trackings=tdao.getTrackingsByUser(u.getKey());

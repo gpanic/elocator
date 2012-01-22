@@ -17,9 +17,9 @@ public interface TrackingResource {
 	public void store(Tracking tracking);
 
 	@Delete
-	void remove(String usernameTracker, String usernameBeingTracked);
+	void remove(String child);
 	
 	@Post
-	public RestletErrorMessage accept(String tracker, String child);
+	public RestletErrorMessage accept(String child);
 
 }

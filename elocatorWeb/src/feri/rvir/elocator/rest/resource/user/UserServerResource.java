@@ -37,6 +37,7 @@ public class UserServerResource extends ServerResource implements UserResource {
 
 	@Override
 	public RestletErrorMessage accept(User user) {
+		System.out.println("ACCEPT UserServerResource");
 		String operation=(String)getRequest().getAttributes().get("operation");
 		if(operation.equals("register")) {
 			System.out.println("REGISTER");

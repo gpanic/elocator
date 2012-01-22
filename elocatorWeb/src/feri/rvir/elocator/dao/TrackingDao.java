@@ -71,7 +71,9 @@ public class TrackingDao {
 		q.setParameter("trackerKey", trackerKey);
 		q.setParameter("child", childKey);
 		Tracking t = (Tracking) q.getSingleResult();
-		em.remove(t);
+		if(t!=null) {
+			em.remove(t);
+		}
 		em.getTransaction().commit();
 		em.close();
 	}

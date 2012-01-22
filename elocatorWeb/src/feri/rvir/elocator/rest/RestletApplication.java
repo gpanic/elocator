@@ -22,22 +22,20 @@ public class RestletApplication extends Application {
 	
 	@Override
 	public Restlet createInboundRoot() {
-		
-		/*
-		ChallengeAuthenticator guard=new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "eLocator");
+		ChallengeAuthenticator guard=new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "Elocator");
 		DBVerifier verifier=new DBVerifier();
-		guard.setVerifier(verifier);*/
+		guard.setVerifier(verifier);
 		
 		Router router=new Router(getContext());
 		router.attach("/users",UsersServerResource.class);
 		router.attach("/users/{username}",UserServerResource.class);
-		router.attach("/users/{username}/{operation}",UserServerResource.class);
 		router.attach("/users/{username}/tracking",TrackingServerResource.class);
+		router.attach("/users/{username}/tracking/{operation}",TrackingServerResource.class);
 		router.attach("/users/{username}/location/{timestamp}",LocationServerResource.class);
-		
-		//guard.setNext(router);
-		//return guard;
-		return router;
+		router.attach("/users/{username}/{operation}",UserServerResource.class);
+
+		guard.setNext(router);
+		return guard;
 	}
 	
 	public class DBVerifier extends SecretVerifier {

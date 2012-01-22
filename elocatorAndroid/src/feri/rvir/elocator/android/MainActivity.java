@@ -9,10 +9,7 @@ import feri.rvir.elocator.android.util.AsyncTaskResult;
 import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.android.util.Serializer;
-import feri.rvir.elocator.rest.resource.tracking.TrackingResource;
 import feri.rvir.elocator.rest.resource.user.User;
-import feri.rvir.elocator.rest.resource.user.UserResource;
-import feri.rvir.elocator.rest.resource.user.UsersResource;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,14 +33,6 @@ public class MainActivity extends Activity {
         
         thisActivity=this;
         
-        ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/test");
-        cr.setRequestEntityBuffering(true);
-        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, "test", Crypto.hash("test", "SHA-1"));
-        UserResource r=cr.wrap(UserResource.class);
-        System.out.println(r.retrieve());
-        
-        /*
-
         if(isSignedIn()) {
         	Intent i=new Intent(thisActivity, TabMenuActivity.class);
         	startActivity(i);
@@ -62,7 +51,6 @@ public class MainActivity extends Activity {
 					
 					if(!(username.equals("")||password.equals(Crypto.hash("", "SHA-1")))) {
 						new SignInTask().execute(username,password);
-						System.out.println("hahaha");
 					} else {
 						ToastCentered.makeText(thisActivity, "Fill out all the fields.").show();
 					}
@@ -79,7 +67,7 @@ public class MainActivity extends Activity {
 				}
 			});
 	        
-        }*/
+        }
     }
     
     private boolean isSignedIn() {

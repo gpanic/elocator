@@ -13,6 +13,11 @@
             android:summary="Add a user to be tracked."
             android:key="prefAddTracked" />
         
+        <Preference
+            android:title="Remove from tracked users"
+            android:summary="Remove a user from your list."
+            android:key="prefRemoveTracked" />
+        
     </PreferenceCategory>
     
     <PreferenceCategory

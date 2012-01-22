@@ -43,34 +43,50 @@ public class TrackingServerResource extends ServerResource implements TrackingRe
 	}
 
 	@Override
-	public void remove(String usernameTracker, String usernameBeingTracked) {
-		System.out.println("REMOVE2 TrackingServerResource");
-		User tracker = udao.getUser(usernameTracker);
-		User child = udao.getUser(usernameBeingTracked);
+	public void remove(String child) {
+		System.out.println("REMOVE TrackingServerResource");
+		String username=(String)getRequest().getAttributes().get("username");
+		User uTracker = udao.getUser(username);
+		User uChild = udao.getUser(child);
 		
-		if (tracker == null || child == null) return;
+		if (uTracker == null || uChild == null) return;
 		
-		tdao.deleteUserFromBeingTracked(tracker.getKey(),child.getKey());
+		tdao.deleteUserFromBeingTracked(uTracker.getKey(),uChild.getKey());
 	}
 
 	@Override
-	public RestletErrorMessage accept(String tracker, String child) {
-		System.out.println("ACCEPT");
-		User uTracker = udao.getUser(tracker);
+	public RestletErrorMessage accept(String child) {
+		System.out.println("ACCEPT TrackingServerResource");
+		String operation=(String)getRequest().getAttributes().get("operation");
+		
+		String username=(String)getRequest().getAttributes().get("username");
+		User uTracker = udao.getUser(username);
 		User uChild = udao.getUser(child);
-		if(uTracker==null||uChild==null) {
-			if(!uTracker.getKey().equals(uChild.getKey())) {
-				List<Tracking> userTrackings = tdao.getTrackingsByUser(uTracker.getKey());
-				for (Tracking t : userTrackings) {
-					if (t.getChild().equals(uChild.getKey())) {
-						return new RestletErrorMessage(false, "You are already tracking "+uChild.getUsername()+".");
+		
+		if(uTracker!=null&&uChild!=null) {
+			if(operation.equals("add")) {
+				if(!uTracker.getKey().equals(uChild.getKey())) {
+					List<Tracking> userTrackings = tdao.getTrackingsByUser(uTracker.getKey());
+					for (Tracking t : userTrackings) {
+						if (t.getChild().equals(uChild.getKey())) {
+							return new RestletErrorMessage(false, "You are already tracking "+uChild.getUsername()+".");
+						}
 					}
+					Tracking t = new Tracking(uTracker.getKey(),uChild.getKey());
+					tdao.addTracking(t);
+					return new RestletErrorMessage(true, "You are now tracking "+uChild.getUsername()+".");
+				} else {
+					return new RestletErrorMessage(false, "Cannot add yourself.");
 				}
-				Tracking t = new Tracking(uTracker.getKey(),uChild.getKey());
-				tdao.addTracking(t);
-				return new RestletErrorMessage(true, "You are now tracking "+uChild.getUsername()+".");
+			} else if(operation.equals("remove")) {
+				if(!uTracker.getKey().equals(uChild.getKey())) {
+					tdao.deleteUserFromBeingTracked(uTracker.getKey(),uChild.getKey());
+					return new RestletErrorMessage(true, "You have stopped tracking "+uChild.getUsername()+".");
+				} else {
+					return new RestletErrorMessage(false, "Cannot remove yourself.");
+				}
 			} else {
-				return new RestletErrorMessage(false, "Cannot add yourself.");
+				return new RestletErrorMessage(false, "Unknown opreation.");
 			}
 		} else {
 			return new RestletErrorMessage(false, "User does not exist.");

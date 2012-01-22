@@ -29,10 +29,13 @@ import android.widget.EditText;
 public class PreferencesActivity extends PreferenceActivity {
 	
 	private static final int DIALOG_ADDTRACKEDUSER=0;
+	private static final int DIALOG_REMOVETRACKEDUSER=1;
 	
-	private PreferenceActivity thisActivity;
+	private PreferencesActivity thisActivity;
 	
 	private User user=null;
+	
+	private ArrayList<User> children=null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,16 @@ public class PreferencesActivity extends PreferenceActivity {
 			}
 		});
 		
+		Preference prefRemoveTracked=(Preference)findPreference("prefRemoveTracked");
+		prefRemoveTracked.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				new GetTrackingTask().execute(user.getUsername(), user.getPassword());
+				return true;
+			}
+		});
+		
+		
 		Preference prefSync=(Preference)findPreference("prefSync");
 		prefSync.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
@@ -104,6 +117,7 @@ public class PreferencesActivity extends PreferenceActivity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						String trackedUser=text.getText().toString();
+						System.out.println(trackedUser);
 						new AddTrackedUserTask().execute(user.getUsername(),user.getPassword(),trackedUser);
 					}
 				})
@@ -115,11 +129,87 @@ public class PreferencesActivity extends PreferenceActivity {
 				})
 				.create();
 			break;
+		case DIALOG_REMOVETRACKEDUSER:
+			ArrayList<String> childrenString=new ArrayList<String>();
+			if(children!=null) {
+				for(User u:children) {
+					childrenString.add(u.getUsername());
+				}
+			}
+			
+			dialog=new AlertDialog.Builder(thisActivity)
+				.setTitle("Select user")
+				.setItems(childrenString.toArray(new CharSequence[childrenString.size()]), new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						new RemoveTrackedUserTask().execute(user.getUsername(),user.getPassword(),children.get(which).getUsername());
+					}
+				})
+				.create();
+			break;
 		default:
 			dialog=null;
 			break;
 		}
 		return dialog;
+	}
+	
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+		case DIALOG_REMOVETRACKEDUSER:
+			removeDialog(id);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	private class GetTrackingTask extends AsyncTask<String, Void, Integer> {
+		
+		private String username;
+		private String password;
+		
+		private ArrayList<User> children;
+		
+		@Override
+		protected  Integer doInBackground(String... params) {
+			username=params[0];
+			password=params[1];
+			ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users");
+	        cr.setRequestEntityBuffering(true);
+	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
+			try {
+				UsersResource resource=cr.wrap(UsersResource.class);
+				children=resource.accept(username);
+	        	return AsyncTaskResult.SUCCESSFUL;
+			} catch (RuntimeException e) {
+				if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {
+					return AsyncTaskResult.UNAUTHORIZED;
+				} else if(!cr.getStatus().isSuccess()) {
+					return AsyncTaskResult.CONNECTION_FAILED;
+				}
+			}
+			return AsyncTaskResult.CONNECTION_FAILED;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			
+			switch (result) {
+			case AsyncTaskResult.UNAUTHORIZED:
+				ToastCentered.makeText(thisActivity, "Unauthorized.").show();
+				break;
+			case AsyncTaskResult.SUCCESSFUL:
+				thisActivity.children=children;
+				showDialog(DIALOG_REMOVETRACKEDUSER);
+				break;
+			default:
+				ToastCentered.makeText(thisActivity, "Connection to server failed.").show();
+				break;
+			}
+		}
 	}
 	
 	private class AddTrackedUserTask extends AsyncTask<String, Void, Integer> {
@@ -136,13 +226,12 @@ public class PreferencesActivity extends PreferenceActivity {
 				password=params[1];
 				trackedUser=params[2];
 				
-				System.out.println(username+password+trackedUser);
-				ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/tracking");
+				ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/tracking/add");
 		        cr.setRequestEntityBuffering(true);
 		        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
 				try {
 					TrackingResource r=cr.wrap(TrackingResource.class);
-					rem=r.accept(username, trackedUser);
+					rem=r.accept(trackedUser);
 		        	return AsyncTaskResult.SUCCESSFUL;
 				} catch (RuntimeException e) {
 					if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {
@@ -172,5 +261,55 @@ public class PreferencesActivity extends PreferenceActivity {
 				}
 			}
 	}
+	
+	private class RemoveTrackedUserTask extends AsyncTask<String, Void, Integer> {
+		
+		private String username;
+		private String password;
+		
+		private String trackedUser;
+		private RestletErrorMessage rem;
+		
+		@Override
+		protected  Integer doInBackground(String... params) {
+			username=params[0];
+			password=params[1];
+			trackedUser=params[2];
+			
+			ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/tracking/remove");
+	        cr.setRequestEntityBuffering(true);
+	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
+			try {
+				TrackingResource r=cr.wrap(TrackingResource.class);
+				rem=r.accept(trackedUser);
+	        	return AsyncTaskResult.SUCCESSFUL;
+			} catch (RuntimeException e) {
+				if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {
+					return AsyncTaskResult.UNAUTHORIZED;
+				} else if(!cr.getStatus().isSuccess()) {
+					System.out.println("TEST 1");
+					return AsyncTaskResult.CONNECTION_FAILED;
+				}
+			}
+			System.out.println("TEST 2");
+			return AsyncTaskResult.CONNECTION_FAILED;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			
+			switch (result) {
+			case AsyncTaskResult.UNAUTHORIZED:
+				ToastCentered.makeText(thisActivity, "Unauthorized.").show();
+				break;
+			case AsyncTaskResult.SUCCESSFUL:
+				ToastCentered.makeText(thisActivity, rem.getMessage()).show();
+				break;
+			default:
+				ToastCentered.makeText(thisActivity, "Connection to server failed.").show();
+				break;
+			}
+		}
+}
 
 }

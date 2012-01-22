@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Tracking implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
     private Long key;
 	private Long trackerKey;
 	private Long child;
