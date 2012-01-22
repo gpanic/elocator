@@ -54,7 +54,7 @@ public class LocationServerResource extends ServerResource implements LocationRe
 		List<Location> locations = locdao.getLocations(u.getKey(), d, nowd);  
 		ArrayList<Location> locations2=new ArrayList<Location>();
 		for(Location l:locations) {
-			locations2.add(l);
+			locations2.add(new Location(l.getKey(), l.getTimestamp(), l.getLatitude(), l.getLongitude()));
 		}
 		return locations2;
 	}

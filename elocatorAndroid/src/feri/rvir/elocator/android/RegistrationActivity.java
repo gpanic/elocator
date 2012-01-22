@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.ClientResource;
 
+import feri.rvir.elocator.android.util.AsyncTaskResult;
 import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.rest.resource.user.User;
@@ -61,10 +62,6 @@ public class RegistrationActivity extends Activity {
 	
 	private class RegistrationTask extends AsyncTask<String, Void, Integer> {
 		
-		private final int FAILED=0;
-		private final int CONNECTION_FAILED=1;
-		private final int SUCCESSFUL=2;
-		
 		private String username;
 		private String password;
 
@@ -78,25 +75,25 @@ public class RegistrationActivity extends Activity {
 			try {
 				UserResource resource=cr.wrap(UserResource.class);
 				resource.accept(new User(username, password));
-	        	return SUCCESSFUL;
+	        	return AsyncTaskResult.SUCCESSFUL;
 			} catch (RuntimeException e) {
 				if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {
-					return FAILED;
+					return AsyncTaskResult.UNAUTHORIZED;
 				} else if(!cr.getStatus().isSuccess()) {
-					return CONNECTION_FAILED;
+					return AsyncTaskResult.CONNECTION_FAILED;
 				}
 			}
-			return CONNECTION_FAILED;
+			return AsyncTaskResult.CONNECTION_FAILED;
 		}
 		
 		@Override
 		protected void onPostExecute(Integer result) {
 			
 			switch (result) {
-			case FAILED:
+			case AsyncTaskResult.UNAUTHORIZED:
 				ToastCentered.makeText(thisActivity, "Registration failed.").show();
 				break;
-			case SUCCESSFUL:
+			case AsyncTaskResult.SUCCESSFUL:
 				ToastCentered.makeText(thisActivity, "Registration successful.").show();
 				Serializer<User> serializer=new Serializer<User>();
 				try {

@@ -3,6 +3,7 @@ package feri.rvir.elocator.rest.resource.user;
 import org.restlet.resource.ServerResource;
 
 import feri.rvir.elocator.dao.UserDao;
+import feri.rvir.elocator.rest.resource.RestletErrorMessage;
 
 public class UserServerResource extends ServerResource implements UserResource {
 	
@@ -17,7 +18,7 @@ public class UserServerResource extends ServerResource implements UserResource {
 		if(u!=null) {
 			u2=new User(u.getKey(), u.getUsername(),u.getPassword());
 		}
-		return u2; //WTF???
+		return u2;
 	}
 
 	@Override
@@ -35,17 +36,17 @@ public class UserServerResource extends ServerResource implements UserResource {
 	}
 
 	@Override
-	public UserErrorMessage accept(User user) {
+	public RestletErrorMessage accept(User user) {
 		String operation=(String)getRequest().getAttributes().get("operation");
 		if(operation.equals("register")) {
 			System.out.println("REGISTER");
 			User u = userdao.getUser(user.getUsername());
 			
 			if (u != null) {
-				return new UserErrorMessage(false, "Username already taken.");
+				return new RestletErrorMessage(false, "Username already taken.");
 			}
 			userdao.addUser(user);
-			return new UserErrorMessage(true, "Registration successful.");
+			return new RestletErrorMessage(true, "Registration successful.");
 		}
 		return null;
 	}

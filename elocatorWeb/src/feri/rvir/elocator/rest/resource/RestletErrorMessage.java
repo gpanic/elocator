@@ -1,19 +1,19 @@
-package feri.rvir.elocator.rest.resource.user;
+package feri.rvir.elocator.rest.resource;
 
 import java.io.Serializable;
 
-public class UserErrorMessage implements Serializable {
+public class RestletErrorMessage implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private boolean ok;
 	private String message;
 	
-	public UserErrorMessage() {
+	public RestletErrorMessage() {
 		
 	}
 	
-	public UserErrorMessage(boolean ok, String message) {
+	public RestletErrorMessage(boolean ok, String message) {
 		super();
 		this.ok = ok;
 		this.message = message;

@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.ClientResource;
 
+import feri.rvir.elocator.android.util.AsyncTaskResult;
 import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.android.util.Serializer;
+import feri.rvir.elocator.rest.resource.tracking.TrackingResource;
 import feri.rvir.elocator.rest.resource.user.User;
 import feri.rvir.elocator.rest.resource.user.UserResource;
 import feri.rvir.elocator.rest.resource.user.UsersResource;
@@ -34,12 +36,14 @@ public class MainActivity extends Activity {
         
         thisActivity=this;
         
-        ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users");
+        ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/test");
         cr.setRequestEntityBuffering(true);
-        UsersResource r=cr.wrap(UsersResource.class);
-        System.out.println(r.accept("test"));
+        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, "test", Crypto.hash("test", "SHA-1"));
+        UserResource r=cr.wrap(UserResource.class);
+        System.out.println(r.retrieve());
         
         /*
+
         if(isSignedIn()) {
         	Intent i=new Intent(thisActivity, TabMenuActivity.class);
         	startActivity(i);
@@ -47,7 +51,6 @@ public class MainActivity extends Activity {
         	
 	        Button signInButton=(Button)findViewById(R.id.main_buttonSignIn);
 	        signInButton.setOnClickListener(new OnClickListener() {
-				@Override
 				public void onClick(View v) {
 					
 					EditText usernameEditText=(EditText)findViewById(R.id.main_editTextUsername);
@@ -102,10 +105,6 @@ public class MainActivity extends Activity {
     
     private class SignInTask extends AsyncTask<String, Void, Integer> {
     	
-    	private final int UNAUTHORIZED=0;
-    	private final int CONNECTION_FAILED=1;
-    	private final int AUTHORIZED=2;
-    	
     	private String username;
     	private String password;
 
@@ -114,29 +113,29 @@ public class MainActivity extends Activity {
     		username=params[0];
     		password=params[1];
     		ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username);
-            //cr.setRequestEntityBuffering(true);
+            cr.setRequestEntityBuffering(true);
             cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
     		try {
             	cr.get();
-            	return AUTHORIZED;
+            	return AsyncTaskResult.AUTHORIZED;
     		} catch (RuntimeException e) {
     			if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {
-    				return UNAUTHORIZED;
+    				return AsyncTaskResult.UNAUTHORIZED;
     			} else if(!cr.getStatus().isSuccess()) {
-    				return CONNECTION_FAILED;
+    				return AsyncTaskResult.CONNECTION_FAILED;
     			}
     		}
-    		return CONNECTION_FAILED;
+    		return AsyncTaskResult.CONNECTION_FAILED;
     	}
     	
     	@Override
     	protected void onPostExecute(Integer result) {
     		
     		switch (result) {
-    		case UNAUTHORIZED:
+    		case AsyncTaskResult.UNAUTHORIZED:
     			ToastCentered.makeText(thisActivity, "Credentials do not match.").show();
     			break;
-    		case AUTHORIZED:
+    		case AsyncTaskResult.AUTHORIZED:
     			ToastCentered.makeText(thisActivity, "Signed in as: "+username+".").show();
     			Serializer<User> serializer=new Serializer<User>();
     			try {

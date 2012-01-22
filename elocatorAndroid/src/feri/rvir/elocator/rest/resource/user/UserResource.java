@@ -5,6 +5,8 @@ import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 
+import feri.rvir.elocator.rest.resource.RestletErrorMessage;
+
 public interface UserResource {
 	
 	@Get
@@ -17,5 +19,5 @@ public interface UserResource {
 	public void remove(String username);
 	
 	@Post
-	public UserErrorMessage accept(User user);
+	public RestletErrorMessage accept(User user);
 }

@@ -23,9 +23,10 @@ public class RestletApplication extends Application {
 	@Override
 	public Restlet createInboundRoot() {
 		
-		//ChallengeAuthenticator guard=new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "eLocator");
-		//DBVerifier verifier=new DBVerifier();
-		//guard.setVerifier(verifier);
+		/*
+		ChallengeAuthenticator guard=new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "eLocator");
+		DBVerifier verifier=new DBVerifier();
+		guard.setVerifier(verifier);*/
 		
 		Router router=new Router(getContext());
 		router.attach("/users",UsersServerResource.class);

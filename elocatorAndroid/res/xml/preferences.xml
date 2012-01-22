@@ -8,6 +8,11 @@
             android:summary=""
             android:key="prefSignOut" />
         
+        <Preference
+            android:title="Add to tracked users"
+            android:summary="Add a user to be tracked."
+            android:key="prefAddTracked" />
+        
     </PreferenceCategory>
     
     <PreferenceCategory
