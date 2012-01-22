@@ -20,15 +20,14 @@ public class LocationServerResource extends ServerResource implements LocationRe
 	public Location retrieve() {
 		System.out.println("RETRIEVE LocationServerResource");
 		String username=(String)getRequest().getAttributes().get("username");
-		String timestamp=(String)getRequest().getAttributes().get("timestamp");
+		//String timestamp=(String)getRequest().getAttributes().get("timestamp");
 		System.out.println(username);
-		System.out.println(timestamp);
 		
 		User u = userdao.getUser(username);
-		List<Location> l = locdao.getLocation(u.getKey(), new Date(Calendar.YEAR,Calendar.MONTH,Calendar.DATE,Calendar.HOUR,Calendar.MINUTE,Calendar.SECOND));
+		if (u == null) return null;
 		
-		return null;
-		//return new Location(new User("usernameExample", "passwordExample"), new Date(), 223, 346);
+		Location l = locdao.getLastLocation(u.getKey());
+		return new Location(l.getUserKey(),l.getTimestamp(),l.getLatitude(),l.getLongitude());
 	}
 
 	@Override

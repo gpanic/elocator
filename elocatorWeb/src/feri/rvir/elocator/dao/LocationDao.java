@@ -82,7 +82,6 @@ public class LocationDao {
 		List<Location> locations = null;
 		
 		try {
-			
 			locations = q.getResultList();
 		} catch (Exception e) {
 			
@@ -90,6 +89,19 @@ public class LocationDao {
 		em.getTransaction().commit();
 		em.close();
 		return locations;
+	}
+	
+	public Location getLastLocation(Long userKey) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey ORDER BY l.key DESC");
+		q.setMaxResults(1);
+		q.setParameter("userKey", userKey);
+		Location l = (Location) q.getSingleResult();
+		
+		em.getTransaction().commit();
+		em.close();
+		return l;
 	}
 	
 }
