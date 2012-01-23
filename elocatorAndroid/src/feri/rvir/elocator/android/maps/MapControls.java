@@ -24,8 +24,13 @@ public class MapControls {
 			minLon=Math.min(lon, minLon);
 		}
 		
-		mapView.getController().zoomToSpan(Math.abs(maxLat-minLat), Math.abs(maxLon-minLon));
-		mapView.getController().animateTo(new GeoPoint((maxLat+minLat)/2, (maxLon+minLon)/2));
+		if(overlayItems.size()>=2) {
+			mapView.getController().zoomToSpan(Math.abs(maxLat-minLat), Math.abs(maxLon-minLon));
+			mapView.getController().animateTo(new GeoPoint((maxLat+minLat)/2, (maxLon+minLon)/2));
+		} else {
+			mapView.getController().setZoom(5);
+			mapView.getController().animateTo(new GeoPoint((maxLat+minLat)/2, (maxLon+minLon)/2));
+		}
 	}
 
 }

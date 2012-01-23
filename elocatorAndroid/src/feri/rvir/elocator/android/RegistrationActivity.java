@@ -41,8 +41,8 @@ public class RegistrationActivity extends Activity {
 				EditText repeatEditText=(EditText)findViewById(R.id.reg_editTextPasswordRepeat);
 				
 				String username=usernameEditText.getText().toString();
-				String password=passwordEditText.getText().toString();
-				String repeat=repeatEditText.getText().toString();
+				String password=Crypto.hash(passwordEditText.getText().toString(), "SHA-1");
+				String repeat=Crypto.hash(repeatEditText.getText().toString(), "SHA-1");
 				if(!(username.equals("")||
 						password.equals("")||
 						repeat.equals(""))) {
@@ -70,7 +70,7 @@ public class RegistrationActivity extends Activity {
 		protected  Integer doInBackground(String... params) {
 			username=params[0];
 			password=params[1];
-			ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username+"/register");
+			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+username+"/register");
 	        cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, "registrator", Crypto.hash(getString(R.string.registrator_password), "SHA-1"));
 			try {

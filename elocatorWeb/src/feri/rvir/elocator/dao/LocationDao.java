@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
@@ -108,8 +109,14 @@ public class LocationDao {
 		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey ORDER BY l.key DESC");
 		q.setMaxResults(1);
 		q.setParameter("userKey", userKey);
-		Location l = (Location) q.getSingleResult();
-		
+		Location l=null;
+		try {
+			l = (Location) q.getSingleResult();
+		} catch (NoResultException e) {
+			em.getTransaction().commit();
+			em.close();
+			return l;
+		}
 		em.getTransaction().commit();
 		em.close();
 		return l;

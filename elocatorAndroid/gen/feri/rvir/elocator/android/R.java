@@ -13,18 +13,20 @@ public final class R {
     public static final class drawable {
         public static final int ic_dialog=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int ic_marker_home=0x7f020002;
-        public static final int ic_marker_info=0x7f020003;
-        public static final int ic_marker_user=0x7f020004;
-        public static final int ic_tab_preferences=0x7f020005;
-        public static final int ic_tab_preferences_selected=0x7f020006;
-        public static final int ic_tab_preferences_unselected=0x7f020007;
-        public static final int ic_tab_tracking_details=0x7f020008;
-        public static final int ic_tab_tracking_details_selected=0x7f020009;
-        public static final int ic_tab_tracking_details_unselected=0x7f02000a;
-        public static final int ic_tab_tracking_overview=0x7f02000b;
-        public static final int ic_tab_tracking_overview_selected=0x7f02000c;
-        public static final int ic_tab_tracking_overview_unselected=0x7f02000d;
+        public static final int ic_marker_finish=0x7f020002;
+        public static final int ic_marker_home=0x7f020003;
+        public static final int ic_marker_info=0x7f020004;
+        public static final int ic_marker_start=0x7f020005;
+        public static final int ic_marker_user=0x7f020006;
+        public static final int ic_tab_preferences=0x7f020007;
+        public static final int ic_tab_preferences_selected=0x7f020008;
+        public static final int ic_tab_preferences_unselected=0x7f020009;
+        public static final int ic_tab_tracking_details=0x7f02000a;
+        public static final int ic_tab_tracking_details_selected=0x7f02000b;
+        public static final int ic_tab_tracking_details_unselected=0x7f02000c;
+        public static final int ic_tab_tracking_overview=0x7f02000d;
+        public static final int ic_tab_tracking_overview_selected=0x7f02000e;
+        public static final int ic_tab_tracking_overview_unselected=0x7f02000f;
     }
     public static final class id {
         public static final int details_mapview=0x7f060014;
@@ -59,6 +61,7 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050001;
+        public static final int gae_server_address=0x7f050004;
         public static final int hello=0x7f050000;
         public static final int registrator_password=0x7f050003;
         public static final int user_data_store=0x7f050002;

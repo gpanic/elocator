@@ -31,7 +31,7 @@ public class RestletApplication extends Application {
 		router.attach("/users/{username}",UserServerResource.class);
 		router.attach("/users/{username}/tracking",TrackingServerResource.class);
 		router.attach("/users/{username}/tracking/{operation}",TrackingServerResource.class);
-		router.attach("/users/{username}/location/{timestamp}",LocationServerResource.class);
+		router.attach("/users/{username}/location",LocationServerResource.class);
 		router.attach("/users/{username}/{operation}",UserServerResource.class);
 
 		guard.setNext(router);
