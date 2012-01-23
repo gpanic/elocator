@@ -61,7 +61,6 @@ public class LocationServerResource extends ServerResource implements LocationRe
 		for(Location l:locations) {
 			locations2.add(new Location(l.getKey(), l.getTimestamp(), l.getLatitude(), l.getLongitude()));
 		}
-		System.out.println(locations2.size());
 		return locations2;
 	}
 

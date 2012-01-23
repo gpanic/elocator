@@ -177,6 +177,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		protected  Integer doInBackground(String... params) {
 			username=params[0];
 			password=params[1];
+			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users");
 	        cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
@@ -226,6 +227,7 @@ public class PreferencesActivity extends PreferenceActivity {
 				password=params[1];
 				trackedUser=params[2];
 				
+				System.setProperty("java.net.preferIPv6Addresses", "false");
 				ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+username+"/tracking/add");
 		        cr.setRequestEntityBuffering(true);
 		        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
@@ -276,6 +278,7 @@ public class PreferencesActivity extends PreferenceActivity {
 			password=params[1];
 			trackedUser=params[2];
 			
+			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+username+"/tracking/remove");
 	        cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);

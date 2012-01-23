@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	System.out.println("TEST MAIN");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
@@ -99,6 +100,7 @@ public class MainActivity extends Activity {
     	protected  Integer doInBackground(String... params) {
     		username=params[0];
     		password=params[1];
+    		System.setProperty("java.net.preferIPv6Addresses", "false");
     		ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+username);
             cr.setRequestEntityBuffering(true);
             cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
