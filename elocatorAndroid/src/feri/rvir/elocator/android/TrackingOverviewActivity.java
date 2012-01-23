@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.restlet.data.ChallengeScheme;
+import org.restlet.resource.ClientResource;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
@@ -13,14 +16,19 @@ import com.google.android.maps.OverlayItem;
 
 import feri.rvir.elocator.android.maps.MapControls;
 import feri.rvir.elocator.android.maps.TrackingItemizedOverlay;
+import feri.rvir.elocator.android.util.AsyncTaskResult;
 import feri.rvir.elocator.android.util.Serializer;
+import feri.rvir.elocator.android.util.ToastCentered;
+import feri.rvir.elocator.rest.resource.location.LocationResource;
 import feri.rvir.elocator.rest.resource.user.User;
+import feri.rvir.elocator.rest.resource.user.UsersResource;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 public class TrackingOverviewActivity extends MapActivity {
@@ -33,6 +41,9 @@ public class TrackingOverviewActivity extends MapActivity {
 	private TrackingItemizedOverlay itemizedOverlayTracking;
 	private Drawable drawableHome;
 	private Drawable drawableUser;
+	
+	private ArrayList<User> users=new ArrayList<User>();
+	private ArrayList<feri.rvir.elocator.rest.resource.location.Location> locations=new ArrayList<feri.rvir.elocator.rest.resource.location.Location>();
 	
 	private User user;
 	private boolean gotFirstLocation=false;
@@ -53,6 +64,7 @@ public class TrackingOverviewActivity extends MapActivity {
 		
 		mapView=(MapView)findViewById(R.id.trackingoverview_mapview);
 		mapView.setBuiltInZoomControls(true);
+		
 		mapOverlays = mapView.getOverlays();
 		drawableHome=getResources().getDrawable(R.drawable.ic_marker_home);
 		drawableUser=getResources().getDrawable(R.drawable.ic_marker_user);
@@ -77,7 +89,7 @@ public class TrackingOverviewActivity extends MapActivity {
 				System.out.println("LOCATION CHANGED");
 				GeoPoint point=new GeoPoint((int)(location.getLatitude()*1e6), (int)(location.getLongitude()*1e6));
 				OverlayItem overlayItem=new OverlayItem(point, user.getUsername(), Calendar.getInstance().getTime().toGMTString());
-
+				
 				if(!gotFirstLocation) {
 					System.out.println("GOT LOCATION FIRST TIME");
 					itemizedOverlayHome=new TrackingItemizedOverlay(drawableHome, thisActivity);
@@ -96,22 +108,31 @@ public class TrackingOverviewActivity extends MapActivity {
 				}
 			}
 		};
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		
-		OverlayItem overlayItem1=new OverlayItem(new GeoPoint(19240000,-99120000), "gregor.panic", Calendar.getInstance().getTime().toGMTString());
-		OverlayItem overlayItem2=new OverlayItem(new GeoPoint(25000000,-99120000), "jernej.legvart", Calendar.getInstance().getTime().toGMTString());
+		new GetLocationsTask().execute(user.getUsername(), user.getPassword());
+		
+	}
+	
+	private void populateOverlay() {
 		itemizedOverlayTracking=new TrackingItemizedOverlay(drawableUser, thisActivity);
-		itemizedOverlayTracking.addOverlay(overlayItem1);
-		itemizedOverlayTracking.addOverlay(overlayItem2);
-		
-		mapOverlays.add(itemizedOverlayTracking);
-		adjustZoom();
-		
+		for(int i=0;i<users.size();i++) {
+			User u=users.get(i);
+			feri.rvir.elocator.rest.resource.location.Location l=locations.get(i);
+			if(l!=null) {
+				OverlayItem overlayItem=new OverlayItem(new GeoPoint((int)(l.getLatitude()*1E6), (int)(l.getLongitude()*1E6)), u.getUsername(), l.getTimestamp().toGMTString());
+				itemizedOverlayTracking.addOverlay(overlayItem);
+				mapOverlays.add(itemizedOverlayTracking);
+			}
+			adjustZoom();
+		}
 	}
 	
 	private void adjustZoom() {
 		ArrayList<OverlayItem> overlayItems=new ArrayList<OverlayItem>();
-		overlayItems.addAll(itemizedOverlayTracking.getOverlayItems());
+		if(itemizedOverlayTracking!=null) {
+			overlayItems.addAll(itemizedOverlayTracking.getOverlayItems());
+		}
 		if(itemizedOverlayHome!=null) {
 			overlayItems.addAll(itemizedOverlayHome.getOverlayItems());
 		}
@@ -127,6 +148,63 @@ public class TrackingOverviewActivity extends MapActivity {
 	protected void onResume() {
 		super.onResume();
 		adjustZoom();
+	}
+	
+	private class GetLocationsTask extends AsyncTask<String, Void, Integer> {
+		
+		private String username;
+		private String password;
+		
+		private ArrayList<User> users=new ArrayList<User>();;
+		private ArrayList<feri.rvir.elocator.rest.resource.location.Location> locations=new ArrayList<feri.rvir.elocator.rest.resource.location.Location>();
+		
+		@Override
+		protected  Integer doInBackground(String... params) {
+			username=params[0];
+			password=params[1];
+			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users");
+	        cr.setRequestEntityBuffering(true);
+	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
+	        System.out.println(password);
+			try {
+				UsersResource ur=cr.wrap(UsersResource.class);
+				users=ur.accept(username);
+				for(User u:users) {
+					System.out.println("GETTING FOR "+u.getUsername());
+					cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+u.getUsername()+"/location");
+					cr.setRequestEntityBuffering(true);
+				    cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
+					LocationResource lr=cr.wrap(LocationResource.class);
+					locations.add(lr.retrieve());
+				}
+	        	return AsyncTaskResult.SUCCESSFUL;
+			} catch (RuntimeException e) {
+				if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {
+					return AsyncTaskResult.UNAUTHORIZED;
+				} else if(!cr.getStatus().isSuccess()) {
+					return AsyncTaskResult.CONNECTION_FAILED;
+				}
+			}
+			return AsyncTaskResult.CONNECTION_FAILED;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			
+			switch (result) {
+			case AsyncTaskResult.UNAUTHORIZED:
+				ToastCentered.makeText(thisActivity, "Unauthorized.").show();
+				break;
+			case AsyncTaskResult.SUCCESSFUL:
+				thisActivity.users=users;
+				thisActivity.locations=locations;
+				populateOverlay();
+				break;
+			default:
+				ToastCentered.makeText(thisActivity, "Connection to server failed.").show();
+				break;
+			}
+		}
 	}
 
 }

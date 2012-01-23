@@ -47,7 +47,6 @@ public class MainActivity extends Activity {
 					
 					String username=usernameEditText.getText().toString();
 					String password=Crypto.hash(passwordEditText.getText().toString(), "SHA-1");
-					System.out.println(password);
 					
 					if(!(username.equals("")||password.equals(Crypto.hash("", "SHA-1")))) {
 						new SignInTask().execute(username,password);
@@ -100,7 +99,7 @@ public class MainActivity extends Activity {
     	protected  Integer doInBackground(String... params) {
     		username=params[0];
     		password=params[1];
-    		ClientResource cr=new ClientResource("http://10.0.2.2:8888/rest/users/"+username);
+    		ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+username);
             cr.setRequestEntityBuffering(true);
             cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
     		try {

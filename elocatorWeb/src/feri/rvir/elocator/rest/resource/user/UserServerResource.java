@@ -11,7 +11,7 @@ public class UserServerResource extends ServerResource implements UserResource {
 	
 	@Override
 	public User retrieve() {
-		System.out.println("RETRIEVE");
+		System.out.println("RETRIEVE UserServerResource");
 		String username=(String)getRequest().getAttributes().get("username");
 		User u = userdao.getUser(username);
 		User u2=null;
