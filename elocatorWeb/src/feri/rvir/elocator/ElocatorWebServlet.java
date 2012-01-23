@@ -25,6 +25,23 @@ public class ElocatorWebServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
+		UserDao udao=new UserDao();
+		User u = new User("pwnt","pass");
+		//udao.addUser(u);
+		List<User> users = udao.getAll();
+		System.out.println("users " + users.size());
+		
+		Tracking t = new Tracking(users.get(3).getKey(),users.get(5).getKey());
+		TrackingDao tdao = new TrackingDao();
+		//tdao.addTracking(t);
+		
+		Calendar cal = Calendar.getInstance();
+		Date now = cal.getTime();
+		
+		Location l = new Location(users.get(5).getKey(),now, 46.027482,14.47998);
+		LocationDao ldao = new LocationDao();
+		//ldao.addLocation(l);
+		
 		/*
 		UserDao udao=new UserDao();
 		User u = new User("username","password");

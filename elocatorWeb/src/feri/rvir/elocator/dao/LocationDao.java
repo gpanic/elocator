@@ -32,6 +32,17 @@ public class LocationDao {
 		return locations;
 	}
 	
+	public List<Location> getAllUserLocations(Long userKey) {
+		EntityManager em = EMF.getInstance().createEntityManager();
+		em.getTransaction().begin();
+		Query q = em.createQuery("SELECT l FROM Location l WHERE l.userKey = :userKey");
+		q.setParameter("userKey", userKey);
+		List<Location> locations = q.getResultList();
+		em.getTransaction().commit();
+		em.close();
+		return locations;
+	}
+	
 	public void deleteLocationByKey(Long key) {
 		EntityManager em = EMF.getInstance().createEntityManager();
 		em.getTransaction().begin();
