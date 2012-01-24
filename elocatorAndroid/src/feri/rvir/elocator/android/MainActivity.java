@@ -42,19 +42,18 @@ public class MainActivity extends Activity {
 		Calendar cal = Calendar.getInstance();
 		Date now = cal.getTime();
 
-		/*
-		 * while (!cursor.isAfterLast()) { System.out.println("Loopam " +
-		 * cursor.getString(1)); cursor.moveToNext();
-		 * 
-		 * } cursor.close(); db.addRow("username", "46.558964", "15.652921",
-		 * now.toString()); db.addRow("username", "46.558905", "15.643051",
-		 * now.toString()); db.addRow("username", "46.564659", "15.635734",
-		 * now.toString()); db.addRow("username", "46.560867", "15.629253",
-		 * now.toString()); System.out.println("SEM DODAL");
-		 */
-		db.close();
+//		db.addRow("prvi", "46.558964", "15.652921", now.toString());
+//		db.addRow("drugi", "46.558905", "15.643051", now.toString());
+//		db.addRow("tretji", "46.564659", "15.635734", now.toString());
+//		db.addRow("cetrti", "46.560867", "15.629253", now.toString());
 
-		// ****************************
+		Cursor cursor = db.getRowRaw("prvi");
+		while (!cursor.isAfterLast()) {
+			System.out.println("Loopam " + cursor.getString(0));
+			cursor.moveToNext();
+		}
+		cursor.close();
+		db.close();
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
