@@ -1,11 +1,17 @@
-<!-- Indices written at Tue, 24 Jan 2012 10:22:38 UTC -->
+<!-- Indices written at Tue, 24 Jan 2012 11:10:41 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 2 times in query history -->
+    <!-- Used 18 times in query history -->
     <datastore-index kind="Location" ancestor="false" source="auto">
         <property name="userKey" direction="asc"/>
         <property name="__key__" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 11 times in query history -->
+    <datastore-index kind="Location" ancestor="false" source="auto">
+        <property name="userKey" direction="asc"/>
+        <property name="timestamp" direction="asc"/>
     </datastore-index>
 
 </datastore-indexes>
