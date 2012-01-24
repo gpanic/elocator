@@ -83,7 +83,8 @@ public class DBHelper {
 		initialValues.put(TABELA_STOLPEC_USER, username);
 		initialValues.put(TABELA_STOLPEC_LAT,latitude);
 		initialValues.put(TABELA_STOLPEC_LONG,longitude);	
-		initialValues.put(TABELA_STOLPEC_DATE,datum);	
+		initialValues.put(TABELA_STOLPEC_DATE,datum);
+		System.out.println(username);
 		System.out.println("New location saved");
 		return db.insert(TABELA_IME,null, initialValues)>0;
 		

@@ -1,8 +1,6 @@
 package feri.rvir.elocator.android;
 
 import java.io.FileNotFoundException;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.ClientResource;
@@ -11,17 +9,12 @@ import feri.rvir.elocator.android.util.AsyncTaskResult;
 import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.android.util.Serializer;
-import feri.rvir.elocator.dbhelper.DBHelper;
 import feri.rvir.elocator.rest.resource.user.User;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,26 +28,6 @@ public class MainActivity extends Activity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		System.out.println("TEST MAIN");
-
-		DBHelper db = new DBHelper(getApplicationContext());
-		db.open();
-		Calendar cal = Calendar.getInstance();
-		Date now = cal.getTime();
-
-//		db.addRow("prvi", "46.558964", "15.652921", now.toString());
-//		db.addRow("drugi", "46.558905", "15.643051", now.toString());
-//		db.addRow("tretji", "46.564659", "15.635734", now.toString());
-//		db.addRow("cetrti", "46.560867", "15.629253", now.toString());
-
-		Cursor cursor = db.getRowRaw("prvi");
-		while (!cursor.isAfterLast()) {
-			System.out.println("Loopam " + cursor.getString(0));
-			cursor.moveToNext();
-		}
-		cursor.close();
-		db.close();
-
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 

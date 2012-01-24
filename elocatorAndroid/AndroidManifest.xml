@@ -25,7 +25,8 @@
         <activity android:name="TrackingOverviewActivity" android:label="@string/app_name"></activity>
         <activity android:label="@string/app_name" android:name="TrackingDetailsActivity"></activity>
         <uses-library android:name="com.google.android.maps"/>
-        <activity android:name=".PreferencesActivity" android:label="@string/app_name"></activity>
+        <activity android:name="PreferencesActivity" android:label="@string/app_name"></activity>
+        <activity android:name="SessionActivity" android:label="@string/app_name"></activity>
     </application>
 
 </manifest>
