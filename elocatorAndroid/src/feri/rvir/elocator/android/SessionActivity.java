@@ -3,6 +3,7 @@ package feri.rvir.elocator.android;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -18,6 +19,7 @@ import com.google.android.maps.OverlayItem;
 import feri.rvir.elocator.android.maps.LineItemizedOverlay;
 import feri.rvir.elocator.android.maps.MapControls;
 import feri.rvir.elocator.android.util.Serializer;
+import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.dbhelper.DBHelper;
 import feri.rvir.elocator.rest.resource.user.User;
 
@@ -60,7 +62,7 @@ public class SessionActivity extends MapActivity {
 			e.printStackTrace();
 		}
 
-		mapView=(MapView)findViewById(R.id.details_mapview);
+		mapView=(MapView)findViewById(R.id.session_mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapOverlays=mapView.getOverlays();
 		
@@ -74,6 +76,9 @@ public class SessionActivity extends MapActivity {
 		db.open();
 		try {
 			cursor=db.getRowRaw(user.getUsername());
+			if(cursor.getCount()==0) {
+				ToastCentered.makeText(thisActivity, "No tracking data.").show();
+			}
 			while(!cursor.isAfterLast()) {
 				String lat=cursor.getString(cursor.getColumnIndex("latitude"));
 				String lon=cursor.getString(cursor.getColumnIndex("longitude"));
@@ -97,6 +102,20 @@ public class SessionActivity extends MapActivity {
 		} finally {
 			db.close();
 		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		populateOverlays();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Intent i = new Intent(Intent.ACTION_MAIN);
+		i.addCategory(Intent.CATEGORY_HOME);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(i);
 	}
 
 	@Override

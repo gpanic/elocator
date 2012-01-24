@@ -24,6 +24,7 @@ import feri.rvir.elocator.rest.resource.user.User;
 import feri.rvir.elocator.rest.resource.user.UsersResource;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -160,6 +161,14 @@ public class TrackingOverviewActivity extends MapActivity {
 	protected void onResume() {
 		super.onResume();
 		new GetLocationsTask().execute(user.getUsername(), user.getPassword());
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Intent i = new Intent(Intent.ACTION_MAIN);
+		i.addCategory(Intent.CATEGORY_HOME);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(i);
 	}
 	
 	@Override

@@ -23,6 +23,7 @@ import feri.rvir.elocator.rest.resource.location.LocationResource;
 import feri.rvir.elocator.rest.resource.user.User;
 import feri.rvir.elocator.rest.resource.user.UsersResource;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -132,6 +133,7 @@ public class TrackingDetailsActivity extends MapActivity {
 				spinnerUsers.setAdapter(arrayAdapter);
 				spinnerUsers.setEnabled(true);
 			} else {
+				ToastCentered.makeText(thisActivity, "No tracking data.").show();
 				spinnerUsers.setEnabled(false);
 			}
 		} else {
@@ -144,10 +146,15 @@ public class TrackingDetailsActivity extends MapActivity {
 	protected void onResume() {
 		super.onResume();
 		new GetTrackingTask().execute(user.getUsername(), user.getPassword());
-		//MapControls.adjustZoom(itemizedOverlay.getOverlayItems(), mapView);
 	}
 	
-	
+	@Override
+	public void onBackPressed() {
+		Intent i = new Intent(Intent.ACTION_MAIN);
+		i.addCategory(Intent.CATEGORY_HOME);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(i);
+	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
