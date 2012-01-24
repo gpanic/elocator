@@ -64,7 +64,7 @@ public class PreferencesActivity extends PreferenceActivity {
 //			cursor.moveToNext();
 //		}
 //		
-//		cursor.close();
+//
 
 		StringBuilder sb = new StringBuilder();
 		Serializer<User> serializer = new Serializer<User>();
@@ -277,7 +277,6 @@ public class PreferencesActivity extends PreferenceActivity {
 					password);
 			try {
 				LocationResource r = cr.wrap(LocationResource.class);
-				// rem = r.store(location)
 				System.out.println("check");
 
 				if (cursor.getCount() == 0)
@@ -296,6 +295,11 @@ public class PreferencesActivity extends PreferenceActivity {
 					cursor.moveToNext();
 				}
 				cursor.close();
+				db.deleteAllLocations("username");
+				Cursor ostale = db.getRowRaw("username");
+				ostale.close();
+				System.out.println("brisano. ostane =  " + ostale.getCount());
+				db.close();
 				return AsyncTaskResult.SUCCESSFUL;
 			} catch (RuntimeException e) {
 				if (cr.getStatus().equals(

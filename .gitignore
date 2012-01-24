@@ -1,2 +1,3 @@
 elocatorWeb/war/WEB-INF/appengine-generated/local_db.bin
 elocatorWeb/war/WEB-INF/appengine-generated/datastore-indexes-auto.xml
+*.class

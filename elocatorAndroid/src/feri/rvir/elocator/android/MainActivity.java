@@ -33,7 +33,6 @@ public class MainActivity extends Activity {
 
 		thisActivity = this;
 
-		
 		if (isSignedIn()) {
 			Intent i = new Intent(thisActivity, TabMenuActivity.class);
 			startActivity(i);
