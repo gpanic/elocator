@@ -37,34 +37,20 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		System.out.println("TEST MAIN");
 
-		// ****************************
 		DBHelper db = new DBHelper(getApplicationContext());
 		db.open();
 		Calendar cal = Calendar.getInstance();
 		Date now = cal.getTime();
-		Cursor cursor = db.getRowRaw("username"); 
-		
-		System.out.print("stevilo je " + cursor.getCount());
-		
-		while (!cursor.isAfterLast()) {
-			System.out.println("Loopam " + cursor.getString(1));
-			cursor.moveToNext();
-			
-		}
-		
+
 		/*
-		cursor.close();
-		db.addRow("username", "46.558964", "15.652921", now.toString());
-		db.addRow("username", "46.558905", "15.643051", now.toString());
-		db.addRow("username", "46.564659", "15.635734", now.toString());
-		db.addRow("username", "46.560867", "15.629253", now.toString());
-		System.out.println("SEM DODAL");*/
-		
-		/*
+		 * while (!cursor.isAfterLast()) { System.out.println("Loopam " +
+		 * cursor.getString(1)); cursor.moveToNext();
 		 * 
-		  
-		  while (!cursor.isAfterLast()) { System.out.println("Latitude " +
-		 * cursor.getString(1)); cursor.moveToNext(); } cursor.close();
+		 * } cursor.close(); db.addRow("username", "46.558964", "15.652921",
+		 * now.toString()); db.addRow("username", "46.558905", "15.643051",
+		 * now.toString()); db.addRow("username", "46.564659", "15.635734",
+		 * now.toString()); db.addRow("username", "46.560867", "15.629253",
+		 * now.toString()); System.out.println("SEM DODAL");
 		 */
 		db.close();
 
@@ -75,7 +61,6 @@ public class MainActivity extends Activity {
 
 		thisActivity = this;
 
-		
 		if (isSignedIn()) {
 			Intent i = new Intent(thisActivity, TabMenuActivity.class);
 			startActivity(i);

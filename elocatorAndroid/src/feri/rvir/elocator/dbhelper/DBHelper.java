@@ -105,6 +105,10 @@ public class DBHelper {
 		
 	}
 	
+	public void deleteAllLocations(String username) {
+		db.delete(TABELA_IME, TABELA_STOLPEC_USER + "=" + username, null);
+	}
+	
 	public Cursor getRow(int rowId) throws SQLException{
 		
 		Cursor cursor=db.query(TABELA_IME,
