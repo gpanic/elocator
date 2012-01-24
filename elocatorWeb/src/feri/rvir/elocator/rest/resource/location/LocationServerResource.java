@@ -36,7 +36,14 @@ public class LocationServerResource extends ServerResource implements LocationRe
 	@Override
 	public void store(Location location) {
 		System.out.println("STORE LocationServerResource");
-		locdao.addLocation(location);
+		String username=(String)getRequest().getAttributes().get("username");
+		User u = userdao.getUser(username);
+		
+		if (u == null) {
+			System.out.println("Uporabnik ni najden!");
+		}
+		Location loc = new Location(u.getKey(), location.getTimestamp(), location.getLatitude(), location.getLongitude());
+		locdao.addLocation(loc);
 	}
 
 	@Override
