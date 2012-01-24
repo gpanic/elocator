@@ -162,6 +162,8 @@ public class TrackingOverviewActivity extends MapActivity {
 		protected  Integer doInBackground(String... params) {
 			username=params[0];
 			password=params[1];
+			
+			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users");
 	        cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);

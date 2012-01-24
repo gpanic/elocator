@@ -2,7 +2,6 @@ package feri.rvir.elocator.android;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.restlet.data.ChallengeScheme;
@@ -169,6 +168,8 @@ public class TrackingDetailsActivity extends MapActivity {
 			System.out.println("GET TRACKING");
 			username=params[0];
 			password=params[1];
+			
+			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users");
 	        cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
@@ -217,8 +218,8 @@ public class TrackingDetailsActivity extends MapActivity {
 			username=params[0];
 			password=params[1];
 			childUsername=params[2];
-			System.out.println(username);
-			System.out.println(childUsername);
+
+			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+username+"/location");
 	        cr.setRequestEntityBuffering(true);
 	        cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
