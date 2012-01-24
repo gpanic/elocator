@@ -25,6 +25,11 @@ public class ElocatorWebServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		
+		LocationDao ldao=new LocationDao();
+		
+		List<Location> l=ldao.getAll();
+		System.out.println(l.size());
+		/*
 		UserDao udao=new UserDao();
 		User u = new User("haha","password");
 		
@@ -44,7 +49,7 @@ public class ElocatorWebServlet extends HttpServlet {
 		Location l = new Location(users.get(1).getKey(),now, 46.521076,15.78186);
 		LocationDao ldao = new LocationDao();
 		ldao.addLocation(l);
-		
+		*/
 	
 	}
 }

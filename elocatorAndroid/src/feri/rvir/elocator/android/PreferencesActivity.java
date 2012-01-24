@@ -266,7 +266,7 @@ public class PreferencesActivity extends PreferenceActivity {
 			username = params[0];
 			password = params[1];
 
-			System.out.println("Elementov " + cursor.getColumnCount());
+			System.out.println("Elementov " + cursor.getCount());
 
 			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr = new ClientResource(
@@ -293,6 +293,7 @@ public class PreferencesActivity extends PreferenceActivity {
 							Double.parseDouble(cursor.getString(2)));
 					r.store(temp);
 					System.out.println("Poslal sem lokacijo");
+					cursor.moveToNext();
 				}
 				cursor.close();
 				return AsyncTaskResult.SUCCESSFUL;
@@ -305,7 +306,7 @@ public class PreferencesActivity extends PreferenceActivity {
 					return AsyncTaskResult.CONNECTION_FAILED;
 				}
 			}
-			System.out.println("Pošiljanje lokacije parenta");
+			System.out.println("Poï¿½iljanje lokacije parenta");
 			return AsyncTaskResult.CONNECTION_FAILED;
 		}
 
@@ -317,7 +318,7 @@ public class PreferencesActivity extends PreferenceActivity {
 				ToastCentered.makeText(thisActivity, "Unauthorized.").show();
 				break;
 			case AsyncTaskResult.SUCCESSFUL:
-				ToastCentered.makeText(thisActivity, "Synchronized!").show();
+				ToastCentered.makeText(thisActivity, "Synchronized.").show();
 				break;
 			default:
 				ToastCentered.makeText(thisActivity,
@@ -343,12 +344,9 @@ public class PreferencesActivity extends PreferenceActivity {
 			trackedUser = params[2];
 
 			System.setProperty("java.net.preferIPv6Addresses", "false");
-			ClientResource cr = new ClientResource(
-					getString(R.string.gae_server_address) + "/rest/users/"
-							+ username + "/tracking/add");
+			ClientResource cr = new ClientResource(getString(R.string.gae_server_address) + "/rest/users/"+ username + "/tracking/add");
 			cr.setRequestEntityBuffering(true);
-			cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username,
-					password);
+			cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
 			try {
 				TrackingResource r = cr.wrap(TrackingResource.class);
 				rem = r.accept(trackedUser);
@@ -400,9 +398,7 @@ public class PreferencesActivity extends PreferenceActivity {
 			trackedUser = params[2];
 
 			System.setProperty("java.net.preferIPv6Addresses", "false");
-			ClientResource cr = new ClientResource(
-					getString(R.string.gae_server_address) + "/rest/users/"
-							+ username + "/tracking/remove");
+			ClientResource cr = new ClientResource(getString(R.string.gae_server_address) + "/rest/users/"+ username + "/tracking/remove");
 			cr.setRequestEntityBuffering(true);
 			cr.setChallengeResponse(ChallengeScheme.HTTP_BASIC, username,
 					password);
