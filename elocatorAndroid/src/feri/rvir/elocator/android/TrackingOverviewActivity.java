@@ -24,12 +24,14 @@ import feri.rvir.elocator.rest.resource.user.User;
 import feri.rvir.elocator.rest.resource.user.UsersResource;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -90,6 +92,13 @@ public class TrackingOverviewActivity extends MapActivity {
 			@Override
 			public void onLocationChanged(Location location) {
 				System.out.println("LOCATION CHANGED");
+		        SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		        boolean tracking=prefs.getBoolean("prefTrack", false);
+		        if(tracking) {
+		        	user.getUsername();
+		        	//zapisi lokacijo v bazo
+		        }
+				
 				GeoPoint point=new GeoPoint((int)(location.getLatitude()*1e6), (int)(location.getLongitude()*1e6));
 				OverlayItem overlayItem=new OverlayItem(point, user.getUsername(), Calendar.getInstance().getTime().toGMTString());
 				

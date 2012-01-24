@@ -98,7 +98,7 @@ public class PreferencesActivity extends PreferenceActivity {
 		prefSync.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				return true;
+		        return false;
 			}
 		});
 		
