@@ -127,13 +127,11 @@ public class DBHelper {
 	}
 	
 	public Cursor getRowRaw(String username) throws SQLException{
-
 		Cursor cursor = db.query(TABELA_IME, new String[]{TABELA_STOLPEC_USER,TABELA_STOLPEC_LAT, TABELA_STOLPEC_LONG, TABELA_STOLPEC_DATE}, TABELA_STOLPEC_USER +" like " + "'%"+ username +"%'", null, null, null, null);
 		if (cursor != null) {
             cursor.moveToFirst();
         }			
 		return cursor;
-		
 	}
 	
 }

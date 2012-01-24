@@ -3,6 +3,7 @@ package feri.rvir.elocator.android;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.restlet.data.ChallengeScheme;
@@ -19,6 +20,7 @@ import feri.rvir.elocator.android.maps.TrackingItemizedOverlay;
 import feri.rvir.elocator.android.util.AsyncTaskResult;
 import feri.rvir.elocator.android.util.Serializer;
 import feri.rvir.elocator.android.util.ToastCentered;
+import feri.rvir.elocator.dbhelper.DBHelper;
 import feri.rvir.elocator.rest.resource.location.LocationResource;
 import feri.rvir.elocator.rest.resource.user.User;
 import feri.rvir.elocator.rest.resource.user.UsersResource;
@@ -53,11 +55,16 @@ public class TrackingOverviewActivity extends MapActivity {
 	private User user;
 	private boolean gotFirstLocation=false;
 	
+	DBHelper db = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.trackingoverview);
 		thisActivity=this;
+		
+		db = new DBHelper(getApplicationContext());
+		db.open();
 
 		Serializer<User> serializer=new Serializer<User>();
 		try {
@@ -96,10 +103,15 @@ public class TrackingOverviewActivity extends MapActivity {
 		        boolean tracking=prefs.getBoolean("prefTrack", false);
 		        if(tracking) {
 		        	user.getUsername();
-		        	//zapisi lokacijo v bazo
+		        	Calendar cal = Calendar.getInstance();
+		        	Date now = cal.getTime();
+		        	db.addRow(user.getUsername(), String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()), now.toString());
+		        	System.out.println("Zapisem novo lokacijo v lokalno bazo");
 		        }
+		        
 				
 				GeoPoint point=new GeoPoint((int)(location.getLatitude()*1e6), (int)(location.getLongitude()*1e6));
+				
 				OverlayItem overlayItem=new OverlayItem(point, user.getUsername(), Calendar.getInstance().getTime().toGMTString());
 				
 				if(!gotFirstLocation) {
