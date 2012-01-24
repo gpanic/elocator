@@ -35,10 +35,9 @@ public class PreferencesActivity extends PreferenceActivity {
 
 	private static final int DIALOG_ADDTRACKEDUSER = 0;
 	private static final int DIALOG_REMOVETRACKEDUSER = 1;
-	private static DBHelper db = null;
-	Cursor cursor = null;
-
 	private PreferencesActivity thisActivity;
+	
+	private Cursor cursor;
 
 	private User user = null;
 
@@ -48,23 +47,6 @@ public class PreferencesActivity extends PreferenceActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		thisActivity = this;
-
-		db = new DBHelper(getApplicationContext()); // new database helper
-		db.open();
-
-		try {
-			cursor = db.getRowRaw("username");
-			System.out.println("ni napake");
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		
-//		while (!cursor.isAfterLast()) {
-//			System.out.println("Loopam " + cursor.getString(1));
-//			cursor.moveToNext();
-//		}
-//		
-//
 
 		StringBuilder sb = new StringBuilder();
 		Serializer<User> serializer = new Serializer<User>();
@@ -274,7 +256,18 @@ public class PreferencesActivity extends PreferenceActivity {
 			username = params[0];
 			password = params[1];
 
-			System.out.println("Elementov " + cursor.getCount());
+
+			
+			DBHelper db = new DBHelper(getApplicationContext());
+			db.open();
+
+			try {
+				cursor = db.getRowRaw(username);
+				System.out.println("ni napake");
+				System.out.println("Elementov " + cursor.getCount());
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
 
 			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr = new ClientResource(
@@ -302,12 +295,7 @@ public class PreferencesActivity extends PreferenceActivity {
 					System.out.println("Poslal sem lokacijo");
 					cursor.moveToNext();
 				}
-				cursor.close();
-				db.deleteAllLocations("username");
-				Cursor ostale = db.getRowRaw("username");
-				ostale.close();
-				System.out.println("brisano. ostane =  " + ostale.getCount());
-				db.close();
+				db.deleteAllLocations(username);
 				return AsyncTaskResult.SUCCESSFUL;
 			} catch (RuntimeException e) {
 				if (cr.getStatus().equals(
@@ -317,6 +305,12 @@ public class PreferencesActivity extends PreferenceActivity {
 					System.out.println("TEST 1");
 					return AsyncTaskResult.CONNECTION_FAILED;
 				}
+			} finally {
+				cursor.close();
+				Cursor ostale = db.getRowRaw(username);
+				ostale.close();
+				System.out.println("brisano. ostane =  " + ostale.getCount());
+				db.close();
 			}
 			System.out.println("Po�iljanje lokacije parenta");
 			return AsyncTaskResult.CONNECTION_FAILED;
