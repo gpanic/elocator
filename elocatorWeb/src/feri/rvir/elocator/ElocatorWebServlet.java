@@ -26,23 +26,24 @@ public class ElocatorWebServlet extends HttpServlet {
 			throws IOException {
 		
 		UserDao udao=new UserDao();
-		User u = new User("test","test");
-		//u = udao.getUser("test");
-		//udao.deleteUser(u.getKey());
+		User u = new User("haha","password");
+		
 		//udao.addUser(u);
 		List<User> users = udao.getAll();
+		Tracking t = new Tracking(users.get(0).getKey(),users.get(3).getKey());
+		
 		System.out.println("users " + users.size());
 //		
 //		Tracking t = new Tracking(users.get(3).getKey(),users.get(5).getKey());
-//		TrackingDao tdao = new TrackingDao();
-//		//tdao.addTracking(t);
+		TrackingDao tdao = new TrackingDao();
+		//tdao.addTracking(t);
 //		
-//		Calendar cal = Calendar.getInstance();
-//		Date now = cal.getTime();
+		Calendar cal = Calendar.getInstance();
+		Date now = cal.getTime();
 //		
-//		Location l = new Location(users.get(5).getKey(),now, 46.027482,14.47998);
-//		LocationDao ldao = new LocationDao();
-		//ldao.addLocation(l);
+		Location l = new Location(users.get(1).getKey(),now, 46.521076,15.78186);
+		LocationDao ldao = new LocationDao();
+		ldao.addLocation(l);
 		
 	
 	}

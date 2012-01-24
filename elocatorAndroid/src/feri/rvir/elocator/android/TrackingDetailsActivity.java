@@ -143,10 +143,8 @@ public class TrackingDetailsActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		/*
-		MapControls.adjustZoom(itemizedOverlay.getOverlayItems(), mapView);
 		new GetTrackingTask().execute(user.getUsername(), user.getPassword());
-		populateSpinner();*/
+		//MapControls.adjustZoom(itemizedOverlay.getOverlayItems(), mapView);
 	}
 	
 	
@@ -218,7 +216,7 @@ public class TrackingDetailsActivity extends MapActivity {
 			username=params[0];
 			password=params[1];
 			childUsername=params[2];
-
+			
 			System.setProperty("java.net.preferIPv6Addresses", "false");
 			ClientResource cr=new ClientResource(getString(R.string.gae_server_address)+"/rest/users/"+username+"/location");
 	        cr.setRequestEntityBuffering(true);
@@ -226,6 +224,7 @@ public class TrackingDetailsActivity extends MapActivity {
 			try {
 				LocationResource lr=cr.wrap(LocationResource.class);
 				locationsOfSelectedUser=lr.accept(childUsername);
+				System.out.println("LOCATIONS "+locationsOfSelectedUser.size());
 	        	return AsyncTaskResult.SUCCESSFUL;
 			} catch (RuntimeException e) {
 				if(cr.getStatus().equals(org.restlet.data.Status.CLIENT_ERROR_UNAUTHORIZED)) {

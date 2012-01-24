@@ -30,6 +30,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class TrackingOverviewActivity extends MapActivity {
 	
@@ -147,7 +150,25 @@ public class TrackingOverviewActivity extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		adjustZoom();
+		new GetLocationsTask().execute(user.getUsername(), user.getPassword());
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater=new MenuInflater(thisActivity);
+		inflater.inflate(R.menu.trackingoverview_options_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.options_trackingoverview_sync:
+			new GetLocationsTask().execute(user.getUsername(), user.getPassword());
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	private class GetLocationsTask extends AsyncTask<String, Void, Integer> {

@@ -94,11 +94,11 @@ public class PreferencesActivity extends PreferenceActivity {
 		});
 		
 		
-		Preference prefSync=(Preference)findPreference("prefSync");
+		Preference prefSync=(Preference)findPreference("prefSync"); // baza sync
 		prefSync.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				return false;
+				return true;
 			}
 		});
 		

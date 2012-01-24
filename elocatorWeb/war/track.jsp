@@ -12,7 +12,7 @@ List<User> users = udao.getAll();
 JSONObject obj = new JSONObject();
 LocationDao ldao = new LocationDao();
 TrackingDao tdao = new TrackingDao();
-List<Tracking> trackings = tdao.getTrackingsByUser(users.get(1).getKey());
+List<Tracking> trackings = tdao.getTrackingsByUser(users.get(0).getKey());
 
 List<Location> locations = null;
 
