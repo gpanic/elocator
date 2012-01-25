@@ -56,6 +56,9 @@ public class TrackingOverviewActivity extends MapActivity {
 	private User user;
 	private boolean gotFirstLocation=false;
 	
+	private Location locBefore;
+	private Location locNow;
+	
 	DBHelper db = null;
 	
 	@Override
@@ -100,14 +103,38 @@ public class TrackingOverviewActivity extends MapActivity {
 			@Override
 			public void onLocationChanged(Location location) {
 				System.out.println("LOCATION CHANGED");
+				
 		        SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 		        boolean tracking=prefs.getBoolean("prefTrack", false);
+		        
+				if(gotFirstLocation) {
+					locBefore=locNow;
+					locNow=location;
+				} else {
+					locBefore=location;
+					locNow=location;
+				}
+
 		        if(tracking) {
-		        	user.getUsername();
-		        	Calendar cal = Calendar.getInstance();
-		        	Date now = cal.getTime();
-		        	db.addRow(user.getUsername(), String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()), now.toString());
-		        	System.out.println("Zapisem novo lokacijo v lokalno bazo");
+		        	if(gotFirstLocation) {
+		        		if(locBefore.distanceTo(locNow)>10) {
+		        			System.out.println("USER SE JE PREMAKNIL ZA VEC KOT 10 METROV");
+				        	user.getUsername();
+				        	Calendar cal = Calendar.getInstance();
+				        	Date now = cal.getTime();
+				        	db.addRow(user.getUsername(), String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()), now.toString());
+				        	System.out.println("Zapisem novo lokacijo v lokalno bazo");
+		        		} else {
+		        			System.out.println("USER SE NI PREMAKNIL ZA VEC KOT 10 METROV");
+		        		}
+		        	} else {
+		        		System.out.println("PRVA LOKACIJA");
+			        	user.getUsername();
+			        	Calendar cal = Calendar.getInstance();
+			        	Date now = cal.getTime();
+			        	db.addRow(user.getUsername(), String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()), now.toString());
+			        	System.out.println("Zapisem novo lokacijo v lokalno bazo");
+		        	}
 		        }
 		        
 				

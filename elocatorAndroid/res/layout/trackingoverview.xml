@@ -6,5 +6,6 @@
     android:layout_height="fill_parent"
     android:clickable="true"
     android:apiKey="03BGFbppTUWQ4Feej-jY3sXqv7U7OhwLbNgLJ4w"
+
 />
 <!--  android:apiKey="0ARi38F8UGrHc6ulr6Khh1oOteO1UgUkp6L-bQw" -->
