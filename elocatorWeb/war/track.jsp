@@ -7,12 +7,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <%
+
+if (session.getAttribute("key") == null || session.getAttribute("key").equals("")) response.sendRedirect("login.jsp");
+
 UserDao udao = new UserDao();
 List<User> users = udao.getAll(); 
 JSONObject obj = new JSONObject();
 LocationDao ldao = new LocationDao();
 TrackingDao tdao = new TrackingDao();
-List<Tracking> trackings = tdao.getTrackingsByUser(users.get(0).getKey());
+List<Tracking> trackings = tdao.getTrackingsByUser(Long.parseLong(session.getAttribute("key").toString()));
 
 List<Location> locations = null;
 
@@ -65,7 +68,7 @@ html {
 </script>
 </head>
 <body>
-	<div id="meni">To je meni</div>
+	<div id="meni" style="color: white; font-family: Verdana; text-decoration: none;"><a href="logout.jsp">Logout</a></div>
 	<div id="levo">
 		<%
 			if (trackings.size() != 0) {
