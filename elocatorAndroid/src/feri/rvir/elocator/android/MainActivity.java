@@ -37,7 +37,10 @@ public class MainActivity extends Activity {
 		/*
 		DBHelper db=new DBHelper(getApplicationContext());
 		db.open();
-		db.addRow("gregor", "46.55758", "15.52675", Calendar.getInstance().getTime().toString());
+		db.addRow("gregor", "46.56190", "15.5568", Calendar.getInstance().getTime().toString());
+		db.addRow("gregor", "46.57317", "15.5755", Calendar.getInstance().getTime().toString());
+		db.addRow("gregor", "46.56255", "15.5929", Calendar.getInstance().getTime().toString());
+		db.addRow("gregor", "46.57214", "15.6099", Calendar.getInstance().getTime().toString());
 		db.close();
 		System.out.println("NAREDO SEM V BAZO NEKAJ");
 		*/
