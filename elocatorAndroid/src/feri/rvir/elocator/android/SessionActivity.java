@@ -71,6 +71,7 @@ public class SessionActivity extends MapActivity {
 	}
 	
 	private void populateOverlays() {
+		mapView.invalidate();
 		itemizedOverlay=new LineItemizedOverlay(drawableInfo, thisActivity);
 		DBHelper db=new DBHelper(getApplicationContext());
 		db.open();
@@ -78,28 +79,30 @@ public class SessionActivity extends MapActivity {
 			cursor=db.getRowRaw(user.getUsername());
 			if(cursor.getCount()==0) {
 				ToastCentered.makeText(thisActivity, "No tracking data.").show();
-			}
-			while(!cursor.isAfterLast()) {
-				String lat=cursor.getString(cursor.getColumnIndex("latitude"));
-				String lon=cursor.getString(cursor.getColumnIndex("longitude"));
-				double latDouble=Double.parseDouble(lat);
-				double lonDouble=Double.parseDouble(lon);
-				String date=cursor.getString(cursor.getColumnIndex("timestamp"));
-				OverlayItem oi=new OverlayItem(new GeoPoint((int)(latDouble*1E6), (int)(lonDouble*1E6)), user.getUsername(), date);
-				if(cursor.isFirst()) {
-					oi.setMarker(drawableStart);
-				} else if(cursor.isLast()) {
-					oi.setMarker(drawableFinish);
+			} else {
+				while(!cursor.isAfterLast()) {
+					System.out.println("DELAM CURSOR");
+					String lat=cursor.getString(cursor.getColumnIndex("latitude"));
+					String lon=cursor.getString(cursor.getColumnIndex("longitude"));
+					double latDouble=Double.parseDouble(lat);
+					double lonDouble=Double.parseDouble(lon);
+					String date=cursor.getString(cursor.getColumnIndex("timestamp"));
+					OverlayItem oi=new OverlayItem(new GeoPoint((int)(latDouble*1E6), (int)(lonDouble*1E6)), user.getUsername(), date);
+					if(cursor.isFirst()) {
+						oi.setMarker(drawableStart);
+					} else if(cursor.isLast()) {
+						oi.setMarker(drawableFinish);
+					}
+					itemizedOverlay.addOverlay(oi);
+					cursor.moveToNext();
 				}
-				itemizedOverlay.addOverlay(oi);
-				cursor.moveToNext();
+				mapOverlays.add(itemizedOverlay);
 			}
-			cursor.close();
-			mapOverlays.add(itemizedOverlay);
 			MapControls.adjustZoom(itemizedOverlay.getOverlayItems(), mapView);
 		} catch (SQLiteException e) {
 			e.printStackTrace();
 		} finally {
+			cursor.close();
 			db.close();
 		}
 	}

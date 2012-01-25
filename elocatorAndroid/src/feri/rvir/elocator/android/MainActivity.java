@@ -1,6 +1,7 @@
 package feri.rvir.elocator.android;
 
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 
 import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.ClientResource;
@@ -9,6 +10,7 @@ import feri.rvir.elocator.android.util.AsyncTaskResult;
 import feri.rvir.elocator.android.util.Crypto;
 import feri.rvir.elocator.android.util.ToastCentered;
 import feri.rvir.elocator.android.util.Serializer;
+import feri.rvir.elocator.dbhelper.DBHelper;
 import feri.rvir.elocator.rest.resource.user.User;
 import android.app.Activity;
 import android.content.Context;
@@ -32,6 +34,13 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 
 		thisActivity = this;
+		/*
+		DBHelper db=new DBHelper(getApplicationContext());
+		db.open();
+		db.addRow("gregor", "46.55758", "15.52675", Calendar.getInstance().getTime().toString());
+		db.close();
+		System.out.println("NAREDO SEM V BAZO NEKAJ");
+		*/
 		
 		if (isSignedIn()) {
 			Intent i = new Intent(thisActivity, TabMenuActivity.class);

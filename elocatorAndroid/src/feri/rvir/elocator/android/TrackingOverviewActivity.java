@@ -167,6 +167,7 @@ public class TrackingOverviewActivity extends MapActivity {
 	}
 	
 	private void populateOverlay() {
+		mapView.invalidate();
 		itemizedOverlayTracking=new TrackingItemizedOverlay(drawableUser, thisActivity);
 		for(int i=0;i<users.size();i++) {
 			User u=users.get(i);
